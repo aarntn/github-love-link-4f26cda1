@@ -177,6 +177,7 @@ function SectionList({
   pending,
   onOpen,
   onAction,
+  onReroute,
 }: {
   title: React.ReactNode;
   accent: "destructive" | "muted";
@@ -184,6 +185,7 @@ function SectionList({
   pending: Record<string, Status | null>;
   onOpen: (c: TriageCase) => void;
   onAction: (c: TriageCase, status: Status) => void;
+  onReroute?: (c: TriageCase) => void;
 }) {
   return (
     <section className="space-y-3">
@@ -211,6 +213,7 @@ function SectionList({
                 case={c}
                 onOpen={() => onOpen(c)}
                 onAction={(s) => onAction(c, s)}
+                onReroute={onReroute ? () => onReroute(c) : undefined}
                 pending={pending[c.id] ?? null}
               />
             </motion.div>
@@ -221,9 +224,10 @@ function SectionList({
   );
 }
 
-export function ClinicianTab({ cases, updateStatus }: Props) {
+export function ClinicianTab({ cases, updateStatus, rerouteCase }: Props) {
   const [pending, setPending] = useState<Record<string, Status | null>>({});
   const [selected, setSelected] = useState<TriageCase | null>(null);
+  const [rerouteTarget, setRerouteTarget] = useState<TriageCase | null>(null);
 
   const { emergencies, pendingList } = useMemo(() => {
     const open = cases
