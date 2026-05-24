@@ -14,7 +14,57 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      triage_cases: {
+        Row: {
+          channel: string
+          chief_complaint: string
+          created_at: string
+          flow: string
+          id: string
+          is_dengue_hotspot: boolean | null
+          language: string
+          mode: string
+          postcode: string | null
+          recommended_clinic: string
+          red_flag: boolean
+          status: string
+          triage_summary: string
+          urgency: string
+        }
+        Insert: {
+          channel: string
+          chief_complaint: string
+          created_at?: string
+          flow: string
+          id?: string
+          is_dengue_hotspot?: boolean | null
+          language: string
+          mode: string
+          postcode?: string | null
+          recommended_clinic: string
+          red_flag?: boolean
+          status?: string
+          triage_summary: string
+          urgency: string
+        }
+        Update: {
+          channel?: string
+          chief_complaint?: string
+          created_at?: string
+          flow?: string
+          id?: string
+          is_dengue_hotspot?: boolean | null
+          language?: string
+          mode?: string
+          postcode?: string | null
+          recommended_clinic?: string
+          red_flag?: boolean
+          status?: string
+          triage_summary?: string
+          urgency?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
