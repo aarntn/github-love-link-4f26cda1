@@ -2,8 +2,6 @@ import { useMemo, useState } from "react";
 import type { TriageCase } from "@/lib/klinika";
 import { CaseCard } from "./CaseCard";
 import { CaseDetailSheet } from "./CaseDetailSheet";
-import { STATUS_META } from "./badges";
-import { cn } from "@/lib/utils";
 import {
   Select,
   SelectContent,
@@ -26,17 +24,8 @@ const STATUS_RANK: Record<string, number> = { new: 0, escalated: 1, reviewed: 2 
 export function LiveCasesTab({ cases, updateStatus, rerouteCase }: Props) {
   const [urgency, setUrgency] = useState<string>("all");
   const [flow, setFlow] = useState<string>("all");
-  const [status, setStatus] = useState<string>("new");
+  const [status, setStatus] = useState<string>("all");
   const [selected, setSelected] = useState<TriageCase | null>(null);
-
-  const counts = useMemo(
-    () => ({
-      new: cases.filter((c) => c.status === "new").length,
-      escalated: cases.filter((c) => c.status === "escalated").length,
-      reviewed: cases.filter((c) => c.status === "reviewed").length,
-    }),
-    [cases],
-  );
 
   const filtered = useMemo(() => {
     return cases
@@ -54,12 +43,6 @@ export function LiveCasesTab({ cases, updateStatus, rerouteCase }: Props) {
       });
   }, [cases, status, urgency, flow]);
 
-  const countItems: { key: "new" | "escalated" | "reviewed" }[] = [
-    { key: "new" },
-    { key: "escalated" },
-    { key: "reviewed" },
-  ];
-
   return (
     <div className="space-y-6">
       <header>
@@ -68,41 +51,6 @@ export function LiveCasesTab({ cases, updateStatus, rerouteCase }: Props) {
           Semua kes triaj masuk. Semak status review di sini.
         </p>
       </header>
-
-      <div className="flex flex-wrap gap-2">
-        {countItems.map(({ key }) => {
-          const meta = STATUS_META[key];
-          const active = status === key;
-          return (
-            <button
-              key={key}
-              onClick={() => setStatus(active ? "all" : key)}
-              className={cn(
-                "inline-flex items-center gap-2 rounded-full border px-3 py-1.5 text-sm transition-all",
-                active
-                  ? "shadow-sm"
-                  : "bg-card hover:bg-muted/40 border-border",
-              )}
-              style={
-                active
-                  ? {
-                      backgroundColor: `${meta.bg}14`,
-                      borderColor: meta.bg,
-                      color: meta.bg,
-                    }
-                  : undefined
-              }
-            >
-              <span
-                className="h-2 w-2 rounded-full"
-                style={{ backgroundColor: meta.bg }}
-              />
-              <span className="font-medium">{meta.label}</span>
-              <span className="font-semibold tabular-nums">{counts[key]}</span>
-            </button>
-          );
-        })}
-      </div>
 
       <div className="flex flex-wrap gap-3">
         <Select value={status} onValueChange={setStatus}>
