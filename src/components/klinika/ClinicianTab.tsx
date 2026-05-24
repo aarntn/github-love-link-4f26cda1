@@ -37,6 +37,9 @@ interface RowProps {
 function CaseRow({ case: c, onOpen, onAction, onReroute, pending }: RowProps) {
   const [expanded, setExpanded] = useState(false);
   const isLong = (c.triage_summary?.length ?? 0) > 220;
+  const isEmergencyRow = c.red_flag || c.urgency === "emergency";
+  const showReroute = !!onReroute && (isEmergencyRow || c.urgency === "urgent");
+
 
   return (
     <div
