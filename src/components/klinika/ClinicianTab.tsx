@@ -1,46 +1,248 @@
 import { useMemo, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
+import { toast } from "sonner";
 import type { TriageCase, Status } from "@/lib/klinika";
-import { urgencyRank } from "@/lib/klinika";
-import { CaseCard } from "./CaseCard";
+import { urgencyRank, timeAgo, flowLabel } from "@/lib/klinika";
 import { CaseDetailSheet } from "./CaseDetailSheet";
+import { UrgencyBadge, FlowBadge, LanguageBadge } from "./badges";
 import { Button } from "@/components/ui/button";
-import { Check, ArrowUpRight, Loader2 } from "lucide-react";
+import {
+  Check,
+  ArrowUpRight,
+  Loader2,
+  AlertTriangle,
+  MapPin,
+  CheckCircle2,
+  ChevronDown,
+} from "lucide-react";
+import { cn } from "@/lib/utils";
 
 interface Props {
   cases: TriageCase[];
   updateStatus: (id: string, status: Status) => Promise<void>;
 }
 
+interface RowProps {
+  case: TriageCase;
+  onOpen: () => void;
+  onAction: (status: Status) => void;
+  pending: Status | null;
+}
+
+function CaseRow({ case: c, onOpen, onAction, pending }: RowProps) {
+  const [expanded, setExpanded] = useState(false);
+  const isLong = (c.triage_summary?.length ?? 0) > 220;
+
+  return (
+    <div
+      className={cn(
+        "bg-card border rounded-xl overflow-hidden transition-all hover:shadow-md",
+        c.red_flag ? "border-destructive/40" : "hover:border-primary/30",
+      )}
+    >
+      {c.red_flag && (
+        <div className="bg-destructive/10 text-destructive px-5 py-2 text-xs font-semibold flex items-center gap-2">
+          <AlertTriangle className="h-4 w-4" />
+          Red flag — immediate attention
+        </div>
+      )}
+      <div className="p-5 space-y-4">
+        {/* Header row */}
+        <div className="flex items-start justify-between gap-3 flex-wrap">
+          <div className="flex items-center gap-2 flex-wrap">
+            <UrgencyBadge urgency={c.urgency} />
+            <FlowBadge flow={c.flow} />
+            <LanguageBadge language={c.language} />
+            {c.is_dengue_hotspot && (
+              <span className="inline-flex items-center px-2 py-0.5 rounded-md text-xs font-medium bg-warning/10 text-warning">
+                Hotspot
+              </span>
+            )}
+          </div>
+          <span className="text-xs text-muted-foreground shrink-0">
+            {timeAgo(c.created_at)}
+          </span>
+        </div>
+
+        {/* Chief complaint */}
+        <button onClick={onOpen} className="text-left w-full">
+          <p className="font-semibold text-foreground leading-snug hover:text-primary transition-colors">
+            {c.chief_complaint}
+          </p>
+        </button>
+
+        {/* Triage summary block — primary decision input */}
+        <div
+          className="rounded-lg border-l-[3px] p-4"
+          style={{ backgroundColor: "#F7F9F8", borderLeftColor: "#0D9E75" }}
+        >
+          <p
+            className={cn(
+              "text-[14px] leading-relaxed text-foreground/90",
+              !expanded && isLong && "line-clamp-3",
+            )}
+          >
+            {c.triage_summary}
+          </p>
+          {isLong && (
+            <button
+              onClick={() => setExpanded((e) => !e)}
+              className="mt-2 inline-flex items-center gap-1 text-xs font-medium text-primary hover:underline"
+            >
+              {expanded ? "Show less" : "Show more"}
+              <ChevronDown
+                className={cn(
+                  "h-3 w-3 transition-transform",
+                  expanded && "rotate-180",
+                )}
+              />
+            </button>
+          )}
+        </div>
+
+        {/* Footer: clinic + actions */}
+        <div className="flex items-end justify-between gap-3 flex-wrap pt-1">
+          <div className="flex items-start gap-1.5 text-xs text-muted-foreground min-w-0">
+            <MapPin className="h-3.5 w-3.5 mt-0.5 shrink-0" />
+            <span className="truncate">{c.recommended_clinic}</span>
+          </div>
+          <div className="flex gap-2 ml-auto">
+            <Button
+              size="sm"
+              disabled={!!pending}
+              onClick={(e) => {
+                e.stopPropagation();
+                onAction("reviewed");
+              }}
+            >
+              {pending === "reviewed" ? (
+                <Loader2 className="h-3.5 w-3.5 animate-spin" />
+              ) : (
+                <Check className="h-3.5 w-3.5" />
+              )}
+              Mark Reviewed
+            </Button>
+            <Button
+              size="sm"
+              disabled={!!pending}
+              className="text-white hover:opacity-90"
+              style={{ backgroundColor: "#D85A30" }}
+              onClick={(e) => {
+                e.stopPropagation();
+                onAction("escalated");
+              }}
+            >
+              {pending === "escalated" ? (
+                <Loader2 className="h-3.5 w-3.5 animate-spin" />
+              ) : (
+                <ArrowUpRight className="h-3.5 w-3.5" />
+              )}
+              Escalate
+            </Button>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function SectionList({
+  title,
+  accent,
+  items,
+  pending,
+  onOpen,
+  onAction,
+}: {
+  title: React.ReactNode;
+  accent: "destructive" | "muted";
+  items: TriageCase[];
+  pending: Record<string, Status | null>;
+  onOpen: (c: TriageCase) => void;
+  onAction: (c: TriageCase, status: Status) => void;
+}) {
+  return (
+    <section className="space-y-3">
+      <h2
+        className={cn(
+          "text-sm font-semibold uppercase tracking-wide flex items-center gap-2",
+          accent === "destructive" ? "text-destructive" : "text-muted-foreground",
+        )}
+      >
+        {title}
+        <span className="text-xs font-normal opacity-70">({items.length})</span>
+      </h2>
+      <div className="space-y-3">
+        <AnimatePresence mode="popLayout">
+          {items.map((c) => (
+            <motion.div
+              key={c.id}
+              layout
+              initial={{ opacity: 0, y: 8 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, x: 60, scale: 0.96 }}
+              transition={{ duration: 0.25, ease: "easeOut" }}
+            >
+              <CaseRow
+                case={c}
+                onOpen={() => onOpen(c)}
+                onAction={(s) => onAction(c, s)}
+                pending={pending[c.id] ?? null}
+              />
+            </motion.div>
+          ))}
+        </AnimatePresence>
+      </div>
+    </section>
+  );
+}
+
 export function ClinicianTab({ cases, updateStatus }: Props) {
-  const [pending, setPending] = useState<Record<string, boolean>>({});
+  const [pending, setPending] = useState<Record<string, Status | null>>({});
   const [selected, setSelected] = useState<TriageCase | null>(null);
 
-  const queue = useMemo(() => {
-    return cases
+  const { emergencies, pendingList } = useMemo(() => {
+    const open = cases
       .filter((c) => c.status === "new" || c.status === "escalated")
       .sort((a, b) => {
-        if (a.red_flag !== b.red_flag) return a.red_flag ? -1 : 1;
         const r = urgencyRank(b.urgency) - urgencyRank(a.urgency);
         if (r !== 0) return r;
         return new Date(b.created_at).getTime() - new Date(a.created_at).getTime();
       });
+    return {
+      emergencies: open.filter((c) => c.red_flag || c.urgency === "emergency"),
+      pendingList: open.filter((c) => !(c.red_flag || c.urgency === "emergency")),
+    };
   }, [cases]);
 
-  const handle = async (id: string, status: Status) => {
-    setPending((p) => ({ ...p, [id]: true }));
+  const handleAction = async (c: TriageCase, status: Status) => {
+    setPending((p) => ({ ...p, [c.id]: status }));
     try {
-      await updateStatus(id, status);
+      await updateStatus(c.id, status);
+      toast.success(
+        status === "reviewed" ? "Case marked as reviewed" : "Case escalated",
+        {
+          description: c.chief_complaint.length > 60
+            ? c.chief_complaint.slice(0, 60) + "…"
+            : c.chief_complaint,
+        },
+      );
+    } catch (e) {
+      toast.error("Failed to update case", {
+        description: e instanceof Error ? e.message : "Please try again",
+      });
     } finally {
       setPending((p) => {
-        const { [id]: _, ...rest } = p;
+        const { [c.id]: _, ...rest } = p;
         return rest;
       });
     }
   };
 
+  const totalOpen = emergencies.length + pendingList.length;
+
   return (
-    <div className="space-y-6">
+    <div className="space-y-8 max-w-3xl">
       <header className="flex items-center justify-between flex-wrap gap-3">
         <div>
           <h1 className="text-2xl font-semibold tracking-tight">Clinician View</h1>
@@ -48,70 +250,44 @@ export function ClinicianTab({ cases, updateStatus }: Props) {
             Action queue — review or escalate cases.
           </p>
         </div>
-        <span className="inline-flex items-center px-3 py-1.5 rounded-full bg-primary/10 text-primary text-sm font-medium">
-          {queue.length} needing attention
-        </span>
+        {totalOpen > 0 && (
+          <span className="inline-flex items-center px-3 py-1.5 rounded-full bg-primary/10 text-primary text-sm font-medium">
+            {totalOpen} needing attention
+          </span>
+        )}
       </header>
 
-      {queue.length === 0 ? (
-        <div className="border border-dashed rounded-xl py-16 text-center text-muted-foreground">
-          🎉 Queue clear. All cases reviewed.
+      {totalOpen === 0 ? (
+        <div className="flex flex-col items-center justify-center py-24 text-center">
+          <div className="h-14 w-14 rounded-full bg-primary/10 text-primary flex items-center justify-center mb-4">
+            <CheckCircle2 className="h-7 w-7" />
+          </div>
+          <p className="text-base font-medium text-foreground">
+            All cases reviewed. Good work.
+          </p>
         </div>
       ) : (
-        <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
-          <AnimatePresence mode="popLayout">
-            {queue.map((c) => {
-              const isPending = pending[c.id];
-              return (
-                <motion.div
-                  key={c.id}
-                  layout
-                  initial={{ opacity: 0, y: 8 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0, x: -20, scale: 0.95 }}
-                  transition={{ duration: 0.2 }}
-                >
-                  <CaseCard
-                    case={c}
-                    onClick={() => setSelected(c)}
-                    actions={
-                      <>
-                        <Button
-                          size="sm"
-                          variant="outline"
-                          disabled={isPending}
-                          onClick={(e) => {
-                            e.stopPropagation();
-                            handle(c.id, "reviewed");
-                          }}
-                        >
-                          {isPending ? (
-                            <Loader2 className="h-3.5 w-3.5 animate-spin" />
-                          ) : (
-                            <Check className="h-3.5 w-3.5" />
-                          )}
-                          Reviewed
-                        </Button>
-                        <Button
-                          size="sm"
-                          variant="ghost"
-                          className="text-warning hover:text-warning hover:bg-warning/10"
-                          disabled={isPending}
-                          onClick={(e) => {
-                            e.stopPropagation();
-                            handle(c.id, "escalated");
-                          }}
-                        >
-                          <ArrowUpRight className="h-3.5 w-3.5" />
-                          Escalate
-                        </Button>
-                      </>
-                    }
-                  />
-                </motion.div>
-              );
-            })}
-          </AnimatePresence>
+        <div className="space-y-8">
+          {emergencies.length > 0 && (
+            <SectionList
+              title={<span>🚨 Requires Immediate Attention</span>}
+              accent="destructive"
+              items={emergencies}
+              pending={pending}
+              onOpen={setSelected}
+              onAction={handleAction}
+            />
+          )}
+          {pendingList.length > 0 && (
+            <SectionList
+              title="Pending Review"
+              accent="muted"
+              items={pendingList}
+              pending={pending}
+              onOpen={setSelected}
+              onAction={handleAction}
+            />
+          )}
         </div>
       )}
 
