@@ -15,9 +15,13 @@ function DashboardPage() {
   const [tab, setTab] = useState<TabKey>("live");
   const { cases, isLoading, error, updateStatus } = useTriageCases();
 
+  const pendingCount = cases.filter(
+    (c) => c.status === "new" || c.status === "escalated",
+  ).length;
+
   return (
     <div className="min-h-screen bg-background">
-      <AppSidebar active={tab} onChange={setTab} />
+      <AppSidebar active={tab} onChange={setTab} pendingCount={pendingCount} />
       <main className="md:ml-[220px] p-6 md:p-8 max-w-[1400px]">
         {isLoading ? (
           <div className="flex items-center justify-center py-32 text-muted-foreground">
