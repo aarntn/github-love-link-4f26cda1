@@ -78,7 +78,7 @@ export function useTriageCases() {
       const target = cases.find((c) => c.id === id);
       if (!target) return;
       const original = target.original_clinic ?? target.recommended_clinic;
-      const optimistic: Partial<TriageCase> = {
+      const optimistic = {
         recommended_clinic: payload.clinic,
         original_clinic: original,
         reroute_reason: payload.reason,
