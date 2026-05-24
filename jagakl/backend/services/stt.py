@@ -3,17 +3,17 @@ import os
 import tempfile
 
 import httpx
-from faster_whisper import WhisperModel
 
 logger = logging.getLogger(__name__)
 
-_model: WhisperModel | None = None
+_model = None
 _MODEL_SIZE = os.getenv("WHISPER_MODEL", "base")
 
 
-def _get_model() -> WhisperModel:
+def _get_model():
     global _model
     if _model is None:
+        from faster_whisper import WhisperModel  # lazy — only load when first voice note arrives
         logger.info("Loading Whisper model '%s' on CPU (first call only)…", _MODEL_SIZE)
         _model = WhisperModel(_MODEL_SIZE, device="cpu", compute_type="int8")
     return _model
