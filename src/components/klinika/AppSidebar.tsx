@@ -15,15 +15,18 @@ const NAV = [
 function NavList({
   active,
   onChange,
+  pendingCount = 0,
 }: {
   active: TabKey;
   onChange: (k: TabKey) => void;
+  pendingCount?: number;
 }) {
   return (
     <nav className="flex flex-col gap-1 px-3">
       {NAV.map((item) => {
         const Icon = item.icon;
         const isActive = active === item.key;
+        const showBadge = item.key === "clinician" && pendingCount > 0;
         return (
           <button
             key={item.key}
@@ -34,10 +37,17 @@ function NavList({
                 ? "bg-muted text-foreground font-semibold"
                 : "text-muted-foreground font-medium hover:bg-muted/60 hover:text-foreground",
             )}
-
           >
             <Icon className="h-4.5 w-4.5 shrink-0" strokeWidth={2} />
-            <span>{item.label}</span>
+            <span className="flex-1">{item.label}</span>
+            {showBadge && (
+              <span
+                className="inline-flex items-center justify-center min-w-[20px] h-5 px-1.5 rounded-full text-[11px] font-semibold text-white"
+                style={{ backgroundColor: "#D85A30" }}
+              >
+                {pendingCount}
+              </span>
+            )}
           </button>
         );
       })}
