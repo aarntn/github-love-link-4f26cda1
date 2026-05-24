@@ -1,4 +1,3 @@
-import asyncio
 import json
 import re
 from pathlib import Path
@@ -9,7 +8,6 @@ from routers.referral import route_referral
 from services.drug_lookup import lookup_drug
 from services.llm import chat
 from services.lang_detect import detect_language
-from services.supabase_writer import write_triage_case
 
 _TB_DATA_PATH = Path(__file__).parent.parent.parent / "data" / "tb_questions.json"
 _PHQ_DATA_PATH = Path(__file__).parent.parent.parent / "data" / "phq_questions.json"
@@ -56,14 +54,6 @@ _LOG_KW = [
     "my reading", "bacaan saya", "catat bacaan", "log reading",
     "daily log", "rekod", "summary", "ringkasan",
 ]
-
-def _clinic_name(ref: dict) -> str:
-    """Extract the primary clinic name from a route_referral() result."""
-    if ref.get("type") == "citizen":
-        return "Klinik Kesihatan (MySejahtera)"
-    clinics = ref.get("clinics", [])
-    return clinics[0].get("name", "NGO Clinic") if clinics else "NGO Clinic"
-
 
 _LANG_MAP = {
     "1": "en", "english": "en",
@@ -249,14 +239,8 @@ async def process_with_llm(session: dict, message: str) -> str:
     return await chat(messages, system_prompt=system)
 
 
-async def handle_message(phone: str, text: str, channel: str = "whatsapp") -> str:
+async def handle_message(phone: str, text: str) -> str:
     session = get_session(phone)
-
-    # Store channel once per session (web vs whatsapp)
-    if not session.get("channel"):
-        update_session(phone, channel=channel)
-        session = get_session(phone)
-
     lower = text.lower().strip()
     lang = session.get("language", "en")
 
@@ -308,10 +292,6 @@ async def handle_message(phone: str, text: str, channel: str = "whatsapp") -> st
 
     if stage in ("triage_start", "dengue_flow"):
         if stage == "triage_start":
-            # Capture the first substantive message as the chief complaint
-            if not session.get("chief_complaint"):
-                update_session(phone, chief_complaint=text[:200])
-                session = get_session(phone)
             flow = _detect_flow(text)
             if flow == "TB_FLOW":
                 return await _handle_tb(phone, session, text)
@@ -382,23 +362,6 @@ async def _handle_dengue(phone: str, session: dict, text: str) -> str:
                     f"{f' {cases} active cases' if cases else ' recorded dengue activity'}.\n\n"
                     f"On day {day} of fever, you need an *NS1/FBC test NOW*.\n\n"
                 )
-            asyncio.ensure_future(write_triage_case(
-                channel=session.get("channel", "whatsapp"),
-                chief_complaint=session.get("chief_complaint", "fever"),
-                flow="dengue",
-                language=lang,
-                mode=session.get("mode", "anonymous"),
-                postcode=postcode,
-                recommended_clinic=_clinic_name(ref),
-                red_flag=True,
-                triage_summary=(
-                    f"Dengue day-{day} fever in postcode {postcode}; "
-                    f"{cases or 'unknown'} active cases; "
-                    f"hotspot={hotspot.get('is_hotspot')}; warning_signs={warning}"
-                ),
-                urgency="urgent",
-                is_dengue_hotspot=hotspot.get("is_hotspot", False),
-            ))
             return msg + ref["message"]
         else:
             cases_str = str(hotspot.get("active_cases")) if hotspot.get("active_cases") is not None else "no data"
@@ -467,18 +430,6 @@ async def _handle_tb(phone: str, session: dict, text: str) -> str:
                     "⚠️ Based on your answers, you may need a TB test.\n"
                     "Don’t worry — FREE and CONFIDENTIAL testing is available.\n\n"
                 )
-            asyncio.ensure_future(write_triage_case(
-                channel=session.get("channel", "whatsapp"),
-                chief_complaint=session.get("chief_complaint", "chronic cough"),
-                flow="tb",
-                language=lang,
-                mode=session.get("mode", "anonymous"),
-                postcode=session.get("postcode"),
-                recommended_clinic=_clinic_name(ref),
-                red_flag=False,
-                triage_summary=f"TB screen score {score}/{threshold} — referred for testing",
-                urgency="urgent",
-            ))
             return prefix + ref["message"]
         else:
             if lang == "ms":
@@ -610,21 +561,6 @@ async def _handle_myminda(phone: str, session: dict, text: str) -> str:
 
             # Q9 crisis override — any non-zero answer triggers crisis
             if q9_score > 0:
-                asyncio.ensure_future(write_triage_case(
-                    channel=session.get("channel", "whatsapp"),
-                    chief_complaint=session.get("chief_complaint", "mental health"),
-                    flow="general",
-                    language=lang,
-                    mode=session.get("mode", "anonymous"),
-                    postcode=session.get("postcode"),
-                    recommended_clinic="Befrienders KL / Talian Kasih",
-                    red_flag=True,
-                    triage_summary=(
-                        f"PHQ-9 Q9 crisis (suicidal ideation). "
-                        f"PHQ-9 total={phq9_total}/27"
-                    ),
-                    urgency="emergency",
-                ))
                 if lang == "ms":
                     return (
                         "Saya sangat prihatin dengan apa yang anda kongsikan. "
@@ -659,20 +595,6 @@ async def _handle_myminda(phone: str, session: dict, text: str) -> str:
                     "postcode": session.get("postcode"),
                 }
                 ref = route_referral(triage)
-                asyncio.ensure_future(write_triage_case(
-                    channel=session.get("channel", "whatsapp"),
-                    chief_complaint=session.get("chief_complaint", "mental health"),
-                    flow="general",
-                    language=lang,
-                    mode=session.get("mode", "anonymous"),
-                    postcode=session.get("postcode"),
-                    recommended_clinic=_clinic_name(ref),
-                    red_flag=False,
-                    triage_summary=(
-                        f"PHQ-9 {band_label} ({phq9_total}/27) — mental health referral"
-                    ),
-                    urgency="urgent" if band_label == "severe" else "routine",
-                ))
 
                 if band_label == "severe":
                     if lang == "ms":
@@ -834,18 +756,6 @@ async def _handle_pharmacy_refill(phone: str, session: dict, text: str) -> str:
         "postcode": session.get("postcode"),
     }
     ref = route_referral(triage)
-    asyncio.ensure_future(write_triage_case(
-        channel=session.get("channel", "whatsapp"),
-        chief_complaint=session.get("chief_complaint", "medication refill"),
-        flow="ncd",
-        language=lang,
-        mode="anonymous",
-        postcode=session.get("postcode"),
-        recommended_clinic=_clinic_name(ref),
-        red_flag=False,
-        triage_summary=f"Pharmacy refill: {text[:100]}",
-        urgency="routine",
-    ))
     header = f"✅ Peringatan disimpan: *{text}*\n\n" if lang == "ms" else f"✅ Reminder saved: *{text}*\n\n"
     return header + ref["message"]
 
