@@ -2,8 +2,6 @@ import { useMemo, useState } from "react";
 import type { TriageCase } from "@/lib/klinika";
 import { CaseCard } from "./CaseCard";
 import { CaseDetailSheet } from "./CaseDetailSheet";
-import { STATUS_META } from "./badges";
-import { cn } from "@/lib/utils";
 import {
   Select,
   SelectContent,
