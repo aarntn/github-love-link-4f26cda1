@@ -119,6 +119,7 @@ export function ClinicianTab({ cases, updateStatus }: Props) {
         case={selected}
         open={!!selected}
         onOpenChange={(o) => !o && setSelected(null)}
+        updateStatus={updateStatus}
       />
     </div>
   );
