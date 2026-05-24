@@ -14,9 +14,8 @@ import { Activity, AlertTriangle, MapPin, ShieldCheck } from "lucide-react";
 
 
 const TEAL = "oklch(0.62 0.13 165)";
-const CORAL = "oklch(0.62 0.18 35)";
 const AMBER = "oklch(0.62 0.13 65)";
-const SLATE = "oklch(0.5 0.02 240)";
+
 
 function StatCard({
   icon: Icon,
