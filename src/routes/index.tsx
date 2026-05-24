@@ -30,7 +30,7 @@ function DashboardPage() {
           </div>
         ) : (
           <>
-            {tab === "live" && <LiveCasesTab cases={cases} />}
+            {tab === "live" && <LiveCasesTab cases={cases} updateStatus={updateStatus} />}
             {tab === "clinician" && (
               <ClinicianTab cases={cases} updateStatus={updateStatus} />
             )}
