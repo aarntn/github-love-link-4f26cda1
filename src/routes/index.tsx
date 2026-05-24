@@ -1,6 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useState } from "react";
-import { MessageCircle, ShieldCheck, Sparkles, Check, Copy, Phone } from "lucide-react";
+import { ShieldCheck, Sparkles, Check, Copy, Phone } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 const WA_NUMBER = "+1 415 523 8886";
@@ -9,7 +9,6 @@ const JOIN_CODE = "join dollar-leather";
 const WA_LINK = `https://wa.me/${WA_NUMBER_DIGITS}?text=${encodeURIComponent(JOIN_CODE)}`;
 
 const TEAL = "#0D9E75";
-const WHATSAPP = "#25D366";
 
 export const Route = createFileRoute("/")({
   head: () => ({
