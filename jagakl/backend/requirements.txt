@@ -1,9 +1,0 @@
-fastapi
-uvicorn[standard]
-python-dotenv
-twilio
-httpx
-python-multipart
-anthropic
-pytest
-pytest-asyncio
