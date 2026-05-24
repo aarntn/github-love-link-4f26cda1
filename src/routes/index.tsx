@@ -304,7 +304,7 @@ function Footer() {
       <div className="max-w-6xl mx-auto space-y-6">
         <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
           <div className="flex items-center gap-2.5">
-            <LogoMark />
+            <BrandIcon className="h-5 w-5 text-primary" />
             <div>
               <div className="font-semibold leading-tight">Klinika</div>
               <div className="text-xs text-muted-foreground">
@@ -312,11 +312,7 @@ function Footer() {
               </div>
             </div>
           </div>
-          <div className="flex items-center gap-4 text-xs text-muted-foreground">
-            <Link to="/dashboard" className="hover:text-foreground transition-colors">
-              Clinician Dashboard
-            </Link>
-            <span aria-hidden>·</span>
+          <div className="text-xs text-muted-foreground">
             <span>Built for Vibeathon 2025</span>
           </div>
         </div>
