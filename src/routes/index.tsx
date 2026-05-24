@@ -1,6 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useState } from "react";
-import { MessageCircle, ShieldCheck, Sparkles, Check, Copy, Phone } from "lucide-react";
+import { ShieldCheck, Sparkles, Check, Copy, Phone } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 const WA_NUMBER = "+1 415 523 8886";
@@ -9,7 +9,6 @@ const JOIN_CODE = "join dollar-leather";
 const WA_LINK = `https://wa.me/${WA_NUMBER_DIGITS}?text=${encodeURIComponent(JOIN_CODE)}`;
 
 const TEAL = "#0D9E75";
-const WHATSAPP = "#25D366";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -332,12 +331,10 @@ function WhatsappButton({ size = "md" }: { size?: "md" | "lg" }) {
       target="_blank"
       rel="noopener noreferrer"
       className={cn(
-        "inline-flex items-center justify-center gap-2.5 rounded-full font-semibold text-white shadow-lg shadow-black/5 transition-transform hover:scale-[1.02] active:scale-[0.99]",
+        "inline-flex items-center justify-center gap-2.5 rounded-full font-semibold text-white shadow-lg shadow-black/5 transition-transform hover:scale-[1.02] active:scale-[0.99] bg-primary",
         size === "lg" ? "px-7 py-4 text-base md:text-lg" : "px-5 py-3 text-sm",
       )}
-      style={{ backgroundColor: WHATSAPP }}
     >
-      <MessageCircle className="h-5 w-5 md:h-6 md:w-6" />
       Mula Chat di WhatsApp
     </a>
   );
@@ -350,10 +347,8 @@ function MobileStickyCTA() {
         href={WA_LINK}
         target="_blank"
         rel="noopener noreferrer"
-        className="w-full inline-flex items-center justify-center gap-2 rounded-full px-5 py-3.5 font-semibold text-white shadow-lg"
-        style={{ backgroundColor: WHATSAPP }}
+        className="w-full inline-flex items-center justify-center gap-2 rounded-full px-5 py-3.5 font-semibold text-white shadow-lg bg-primary"
       >
-        <MessageCircle className="h-5 w-5" />
         Mula Chat di WhatsApp
       </a>
     </div>
