@@ -107,9 +107,23 @@ function CaseRow({ case: c, onOpen, onAction, onReroute, pending }: RowProps) {
 
         {/* Footer: clinic + actions */}
         <div className="flex items-end justify-between gap-3 flex-wrap pt-1">
-          <div className="flex items-start gap-1.5 text-xs text-muted-foreground min-w-0">
-            <MapPin className="h-3.5 w-3.5 mt-0.5 shrink-0" />
-            <span className="truncate">{c.recommended_clinic}</span>
+          <div className="flex flex-col gap-0.5 text-xs text-muted-foreground min-w-0">
+            <div className="flex items-start gap-1.5">
+              <MapPin className="h-3.5 w-3.5 mt-0.5 shrink-0" />
+              <span className="truncate">{c.recommended_clinic}</span>
+            </div>
+            <span
+              className={cn(
+                "text-[10px] uppercase tracking-wide font-medium ml-5",
+                c.original_clinic && c.original_clinic !== c.recommended_clinic
+                  ? "text-primary"
+                  : "text-muted-foreground/70",
+              )}
+            >
+              {c.original_clinic && c.original_clinic !== c.recommended_clinic
+                ? "Clinician recommended"
+                : "AI Recommended"}
+            </span>
           </div>
           <div className="flex gap-2 ml-auto">
             <Button
@@ -127,23 +141,25 @@ function CaseRow({ case: c, onOpen, onAction, onReroute, pending }: RowProps) {
               )}
               Mark Reviewed
             </Button>
-            <Button
-              size="sm"
-              disabled={!!pending}
-              className="text-white hover:opacity-90"
-              style={{ backgroundColor: "#D85A30" }}
-              onClick={(e) => {
-                e.stopPropagation();
-                onAction("escalated");
-              }}
-            >
-              {pending === "escalated" ? (
-                <Loader2 className="h-3.5 w-3.5 animate-spin" />
-              ) : (
+            {showReroute && (
+              <Button
+                size="sm"
+                variant="outline"
+                disabled={!!pending}
+                className={cn(
+                  isEmergencyRow
+                    ? "border-destructive/40 text-destructive hover:bg-destructive/10 hover:text-destructive"
+                    : "border-warning/40 text-warning hover:bg-warning/10 hover:text-warning",
+                )}
+                onClick={(e) => {
+                  e.stopPropagation();
+                  onReroute?.();
+                }}
+              >
                 <ArrowUpRight className="h-3.5 w-3.5" />
-              )}
-              Escalate
-            </Button>
+                Reroute
+              </Button>
+            )}
           </div>
         </div>
       </div>
