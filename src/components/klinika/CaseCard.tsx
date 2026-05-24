@@ -1,5 +1,7 @@
-import { timeAgo, flowLabel, type TriageCase } from "@/lib/klinika";
-import { CardShell } from "./CardShell";
+import { MessageCircle, Globe, MapPin, AlertTriangle } from "lucide-react";
+import type { TriageCase } from "@/lib/klinika";
+import { timeAgo } from "@/lib/klinika";
+import { UrgencyBadge, FlowBadge, LanguageBadge } from "./badges";
 import { cn } from "@/lib/utils";
 
 interface Props {
@@ -8,97 +10,57 @@ interface Props {
   actions?: React.ReactNode;
 }
 
-const LANG_LABEL: Record<string, string> = {
-  en: "EN",
-  ms: "MS",
-  ta: "TA",
-  zh: "ZH",
-  bn: "BN",
-};
-
-function Metric({
-  label,
-  value,
-  tone,
-  className,
-}: {
-  label: string;
-  value: React.ReactNode;
-  tone?: "destructive" | "warning" | "default";
-  className?: string;
-}) {
-  const toneCls =
-    tone === "destructive"
-      ? "text-destructive"
-      : tone === "warning"
-        ? "text-warning"
-        : "text-foreground";
-  return (
-    <div className={cn("min-w-0", className)}>
-      <p className="text-[10px] font-semibold tracking-[0.18em] text-muted-foreground uppercase">
-        {label}
-      </p>
-      <p className={cn("mt-1 text-sm font-medium truncate", toneCls)}>{value}</p>
-    </div>
-  );
-}
-
 export function CaseCard({ case: c, onClick, actions }: Props) {
-  const dot =
-    c.red_flag || c.urgency === "emergency"
-      ? "bg-destructive"
-      : c.urgency === "urgent"
-        ? "bg-warning"
-        : "bg-primary";
-
-  const pillTone = c.red_flag || c.urgency === "emergency"
-    ? "bg-destructive/10 text-destructive"
-    : c.urgency === "urgent"
-      ? "bg-warning/10 text-warning"
-      : "bg-primary/10 text-primary";
-
-  const shortId = c.id.slice(0, 6).toUpperCase();
-
+  const ChannelIcon = c.channel === "whatsapp" ? MessageCircle : Globe;
   return (
-    <CardShell
-      label={c.red_flag ? "Red Flag · Triage" : "Live · Triage"}
-      meta={`#${shortId}`}
-      dotClassName={dot}
+    <div
       onClick={onClick}
-      contentClassName="space-y-4"
+      className={cn(
+        "bg-card border rounded-xl overflow-hidden transition-all hover:shadow-md hover:border-primary/30",
+        onClick && "cursor-pointer",
+        c.red_flag && "border-destructive/40",
+      )}
     >
-      <div className="grid grid-cols-3 gap-4">
-        <Metric label="Language" value={LANG_LABEL[c.language] ?? c.language.toUpperCase()} />
-        <Metric label="Flow" value={flowLabel(c.flow)} />
-        <Metric
-          label="Clinic"
-          value={c.recommended_clinic}
-        />
-      </div>
+      {c.red_flag && (
+        <div className="bg-destructive/10 text-destructive px-4 py-1.5 text-xs font-semibold flex items-center gap-1.5">
+          <AlertTriangle className="h-3.5 w-3.5" />
+          Red flag — immediate attention
+        </div>
+      )}
+      <div className="p-4 space-y-3">
+        <div className="flex items-center justify-between gap-2">
+          <div className="flex items-center gap-2 text-muted-foreground">
+            <ChannelIcon className="h-4 w-4" />
+            <LanguageBadge language={c.language} />
+          </div>
+          <UrgencyBadge urgency={c.urgency} />
+        </div>
 
-      <p className="text-sm text-foreground/80 line-clamp-2 leading-snug">
-        “{c.chief_complaint}”
-      </p>
+        <div>
+          <p className="font-medium text-foreground line-clamp-2 leading-snug">
+            {c.chief_complaint}
+          </p>
+        </div>
 
-      <div className="flex items-center justify-between gap-3 pt-1">
-        <span
-          className={cn(
-            "inline-flex items-center gap-2 rounded-full px-3 py-1 text-[11px] font-semibold tracking-[0.14em] uppercase",
-            pillTone,
+        <div className="flex items-center gap-2 flex-wrap">
+          <FlowBadge flow={c.flow} />
+          {c.is_dengue_hotspot && (
+            <span className="inline-flex items-center px-2 py-0.5 rounded-md text-xs font-medium bg-warning/10 text-warning">
+              Hotspot
+            </span>
           )}
-        >
-          <span className={cn("h-1.5 w-1.5 rounded-full", dot)} />
-          {c.urgency} · {flowLabel(c.flow)}
-          {c.is_dengue_hotspot && " · Hotspot"}
-        </span>
-        {actions ? (
-          <div className="flex items-center gap-1">{actions}</div>
-        ) : (
-          <span className="text-xs text-muted-foreground whitespace-nowrap">
-            {timeAgo(c.created_at)}
-          </span>
-        )}
+        </div>
+
+        <div className="flex items-start gap-1.5 text-xs text-muted-foreground">
+          <MapPin className="h-3.5 w-3.5 mt-0.5 shrink-0" />
+          <span className="line-clamp-1">{c.recommended_clinic}</span>
+        </div>
+
+        <div className="flex items-center justify-between pt-2 border-t">
+          <span className="text-xs text-muted-foreground">{timeAgo(c.created_at)}</span>
+          {actions && <div className="flex gap-2">{actions}</div>}
+        </div>
       </div>
-    </CardShell>
+    </div>
   );
 }

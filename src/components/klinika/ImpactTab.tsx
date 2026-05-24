@@ -10,48 +10,38 @@ import {
   ResponsiveContainer,
   CartesianGrid,
 } from "recharts";
-import { CardShell } from "./CardShell";
+import { Activity, AlertTriangle, MapPin, ShieldCheck } from "lucide-react";
+
 
 const TEAL = "oklch(0.62 0.13 165)";
 const AMBER = "oklch(0.62 0.13 65)";
 
+
 function StatCard({
+  icon: Icon,
   label,
   value,
   accent,
 }: {
+  icon: React.ComponentType<{ className?: string }>;
   label: string;
   value: number;
   accent: "primary" | "destructive" | "warning" | "muted";
 }) {
-  const dot = {
-    primary: "bg-primary",
-    destructive: "bg-destructive",
-    warning: "bg-warning",
-    muted: "bg-muted-foreground/50",
+  const cls = {
+    primary: "bg-primary/10 text-primary",
+    destructive: "bg-destructive/10 text-destructive",
+    warning: "bg-warning/10 text-warning",
+    muted: "bg-muted text-muted-foreground",
   }[accent];
-
-  // simple synthetic sparkline bars based on the value
-  const bars = Array.from({ length: 18 }, (_, i) => {
-    const seed = (value + 1) * (i + 1);
-    return 30 + ((seed * 37) % 70);
-  });
-
   return (
-    <CardShell label={label} dotClassName={dot} meta="LIVE">
-      <div className="flex items-end justify-between gap-3">
-        <p className="text-4xl font-semibold tracking-tight leading-none">{value}</p>
-        <div className="flex items-end gap-[3px] h-10">
-          {bars.map((h, i) => (
-            <span
-              key={i}
-              className="w-[3px] rounded-sm bg-muted-foreground/25"
-              style={{ height: `${h}%` }}
-            />
-          ))}
-        </div>
+    <div className="bg-card border rounded-xl p-5">
+      <div className={`inline-flex h-9 w-9 items-center justify-center rounded-lg ${cls}`}>
+        <Icon className="h-4.5 w-4.5" />
       </div>
-    </CardShell>
+      <p className="text-3xl font-semibold mt-3 tracking-tight">{value}</p>
+      <p className="text-xs text-muted-foreground mt-1">{label}</p>
+    </div>
   );
 }
 
@@ -82,6 +72,7 @@ export function ImpactTab({ cases }: Props) {
     return { total, redFlags, dengueHotspots, anonTb, flowCounts, clinics };
   }, [cases]);
 
+
   return (
     <div className="space-y-6">
       <header>
@@ -92,13 +83,14 @@ export function ImpactTab({ cases }: Props) {
       </header>
 
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
-        <StatCard label="Total cases" value={stats.total} accent="primary" />
-        <StatCard label="Red flags" value={stats.redFlags} accent="destructive" />
-        <StatCard label="Dengue hotspot" value={stats.dengueHotspots} accent="warning" />
-        <StatCard label="Anonymous TB" value={stats.anonTb} accent="muted" />
+        <StatCard icon={Activity} label="Total cases" value={stats.total} accent="primary" />
+        <StatCard icon={AlertTriangle} label="Red flags" value={stats.redFlags} accent="destructive" />
+        <StatCard icon={MapPin} label="Dengue hotspot cases" value={stats.dengueHotspots} accent="warning" />
+        <StatCard icon={ShieldCheck} label="Anonymous TB screens" value={stats.anonTb} accent="muted" />
       </div>
 
-      <CardShell label="Cases by Flow" meta="DISTRIBUTION" dotClassName="bg-primary">
+      <div className="bg-card border rounded-xl p-5">
+        <h3 className="text-sm font-semibold mb-4">Cases by flow</h3>
         <ResponsiveContainer width="100%" height={280}>
           <BarChart data={stats.flowCounts}>
             <CartesianGrid strokeDasharray="3 3" stroke="oklch(0.92 0.005 240)" />
@@ -108,9 +100,11 @@ export function ImpactTab({ cases }: Props) {
             <Bar dataKey="count" fill={TEAL} radius={[6, 6, 0, 0]} />
           </BarChart>
         </ResponsiveContainer>
-      </CardShell>
+      </div>
 
-      <CardShell label="Top Clinics" meta="REFERRALS" dotClassName="bg-warning">
+
+      <div className="bg-card border rounded-xl p-5">
+        <h3 className="text-sm font-semibold mb-4">Top recommended clinics</h3>
         <ResponsiveContainer width="100%" height={Math.max(180, stats.clinics.slice(0, 5).length * 38)}>
           <BarChart data={stats.clinics.slice(0, 5)} layout="vertical" margin={{ left: 20 }}>
             <CartesianGrid strokeDasharray="3 3" stroke="oklch(0.92 0.005 240)" />
@@ -120,31 +114,29 @@ export function ImpactTab({ cases }: Props) {
             <Bar dataKey="count" fill={AMBER} radius={[0, 6, 6, 0]} />
           </BarChart>
         </ResponsiveContainer>
-      </CardShell>
+      </div>
 
-      <CardShell
-        label="All Referrals"
-        meta={`${stats.clinics.length} CLINICS`}
-        dotClassName="bg-muted-foreground/50"
-        contentClassName="p-0"
-      >
+      <div className="bg-card border rounded-xl overflow-hidden">
+        <div className="px-5 py-3 border-b">
+          <h3 className="text-sm font-semibold">All referrals</h3>
+        </div>
         <table className="w-full text-sm">
-          <thead className="text-[10px] text-muted-foreground uppercase tracking-[0.18em]">
+          <thead className="bg-muted/40 text-xs text-muted-foreground uppercase tracking-wide">
             <tr>
-              <th className="text-left px-5 py-3 font-semibold">Clinic</th>
-              <th className="text-right px-5 py-3 font-semibold">Referrals</th>
+              <th className="text-left px-5 py-2.5 font-medium">Clinic</th>
+              <th className="text-right px-5 py-2.5 font-medium">Referrals</th>
             </tr>
           </thead>
           <tbody>
             {stats.clinics.map((c) => (
-              <tr key={c.name} className="border-t border-border/60">
-                <td className="px-5 py-3">{c.name}</td>
-                <td className="px-5 py-3 text-right tabular-nums font-medium">{c.count}</td>
+              <tr key={c.name} className="border-t">
+                <td className="px-5 py-2.5">{c.name}</td>
+                <td className="px-5 py-2.5 text-right tabular-nums font-medium">{c.count}</td>
               </tr>
             ))}
           </tbody>
         </table>
-      </CardShell>
+      </div>
     </div>
   );
 }
