@@ -65,5 +65,38 @@ export function useTriageCases() {
     }
   }, [cases]);
 
-  return { cases, isLoading, error, updateStatus };
+  const rerouteCase = useCallback(
+    async (
+      id: string,
+      payload: {
+        clinic: string;
+        reason: string;
+        note?: string | null;
+      },
+    ) => {
+      const prev = cases;
+      const target = cases.find((c) => c.id === id);
+      if (!target) return;
+      const original = target.original_clinic ?? target.recommended_clinic;
+      const optimistic: Partial<TriageCase> = {
+        recommended_clinic: payload.clinic,
+        original_clinic: original,
+        reroute_reason: payload.reason,
+        reroute_note: payload.note ?? null,
+        status: "escalated",
+      };
+      setCases((cs) => cs.map((c) => (c.id === id ? { ...c, ...optimistic } : c)));
+      const { error } = await supabase
+        .from("triage_cases")
+        .update(optimistic)
+        .eq("id", id);
+      if (error) {
+        setCases(prev);
+        throw error;
+      }
+    },
+    [cases],
+  );
+
+  return { cases, isLoading, error, updateStatus, rerouteCase };
 }
