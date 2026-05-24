@@ -1,4 +1,4 @@
-import { MessageCircle, Globe, MapPin, AlertTriangle } from "lucide-react";
+import { MapPin, AlertTriangle } from "lucide-react";
 import type { TriageCase } from "@/lib/klinika";
 import { timeAgo } from "@/lib/klinika";
 import { UrgencyBadge, FlowBadge, LanguageBadge } from "./badges";
