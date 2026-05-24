@@ -305,6 +305,7 @@ export function ClinicianTab({ cases, updateStatus, rerouteCase }: Props) {
               pending={pending}
               onOpen={setSelected}
               onAction={handleAction}
+              onReroute={rerouteCase ? setRerouteTarget : undefined}
             />
           )}
           {pendingList.length > 0 && (
@@ -315,6 +316,7 @@ export function ClinicianTab({ cases, updateStatus, rerouteCase }: Props) {
               pending={pending}
               onOpen={setSelected}
               onAction={handleAction}
+              onReroute={rerouteCase ? setRerouteTarget : undefined}
             />
           )}
         </div>
@@ -325,7 +327,28 @@ export function ClinicianTab({ cases, updateStatus, rerouteCase }: Props) {
         open={!!selected}
         onOpenChange={(o) => !o && setSelected(null)}
         updateStatus={updateStatus}
+        rerouteCase={rerouteCase}
       />
+
+      {rerouteCase && (
+        <RerouteModal
+          case={rerouteTarget}
+          open={!!rerouteTarget}
+          onOpenChange={(o) => !o && setRerouteTarget(null)}
+          onConfirm={async (p) => {
+            if (!rerouteTarget) return;
+            try {
+              await rerouteCase(rerouteTarget.id, p);
+              toast.success("Recommendation sent", { description: p.clinic });
+            } catch (e) {
+              toast.error("Failed to reroute", {
+                description: e instanceof Error ? e.message : "Please try again",
+              });
+              throw e;
+            }
+          }}
+        />
+      )}
     </div>
   );
 }
