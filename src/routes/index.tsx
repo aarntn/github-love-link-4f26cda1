@@ -91,12 +91,6 @@ function Hero() {
           simptom anda — kami akan pandukan anda ke klinik yang sesuai, tanpa soal siasat.
         </p>
 
-        <div className="mt-8 flex flex-col items-center gap-3 text-sm text-foreground/80">
-          <TrustLine>Tiada IC diperlukan — mod anonymous tersedia</TrustLine>
-          <TrustLine>Tersedia dalam Bahasa Malaysia, English, Tamil &amp; Bangla</TrustLine>
-          <TrustLine>Percuma sepenuhnya</TrustLine>
-        </div>
-
         <div className="mt-10 flex flex-col items-center">
           <WhatsappButton size="lg" />
           <p className="mt-4 text-xs text-muted-foreground">
