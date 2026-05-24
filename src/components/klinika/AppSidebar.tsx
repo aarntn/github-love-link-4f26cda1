@@ -53,9 +53,6 @@ function Brand() {
       </div>
       <div>
         <p className="font-semibold text-foreground tracking-tight leading-none">Klinika</p>
-        <p className="text-[10px] text-muted-foreground mt-0.5 uppercase tracking-wider">
-          Triage Console
-        </p>
       </div>
     </div>
   );
