@@ -7,6 +7,7 @@ from twilio.twiml.messaging_response import MessagingResponse
 from session import get_session, update_session, delete_session, _sessions
 from routers.redflag import check_redflag
 from routers.triage import handle_message
+from services.stt import transcribe_voice_note
 
 router = APIRouter()
 logger = logging.getLogger(__name__)
@@ -28,7 +29,23 @@ async def whatsapp_webhook(
         session = get_session(phone)
 
         if NumMedia > 0 and MediaUrl0:
-            update_session(phone, media_url=MediaUrl0)
+            content_type = request.headers.get("MediaContentType0", "")
+            if "audio" in content_type:
+                try:
+                    transcribed = await transcribe_voice_note(MediaUrl0)
+                    if transcribed:
+                        Body = transcribed
+                        logger.info("Voice note transcribed for %s: %r", phone, transcribed[:80])
+                except Exception as exc:
+                    logger.error("STT failed: %s", exc)
+                    twiml.message(
+                        "Sorry, I could not understand the voice note. "
+                        "Please try typing your question.\n"
+                        "/ Maaf, saya tidak dapat memahami pesanan suara. Sila taip soalan anda."
+                    )
+                    return Response(content=str(twiml), media_type="application/xml")
+            else:
+                update_session(phone, media_url=MediaUrl0)
 
         # Layer 1: red-flag check — always runs before triage logic
         flag = check_redflag(Body, language=session.get("language", "en"))
