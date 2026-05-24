@@ -26,7 +26,7 @@ const STATUS_RANK: Record<string, number> = { new: 0, escalated: 1, reviewed: 2 
 export function LiveCasesTab({ cases, updateStatus, rerouteCase }: Props) {
   const [urgency, setUrgency] = useState<string>("all");
   const [flow, setFlow] = useState<string>("all");
-  const [status, setStatus] = useState<string>("new");
+  const [status, setStatus] = useState<string>("all");
   const [selected, setSelected] = useState<TriageCase | null>(null);
 
   const counts = useMemo(
