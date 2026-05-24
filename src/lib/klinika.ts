@@ -21,7 +21,28 @@ export interface TriageCase {
   recommended_clinic: string;
   triage_summary: string;
   status: Status | string;
+  original_clinic?: string | null;
+  reroute_reason?: string | null;
+  reroute_note?: string | null;
 }
+
+export type RerouteReason =
+  | "worsening"
+  | "specialist"
+  | "travel"
+  | "closer"
+  | "other";
+
+export const REROUTE_REASONS: { value: RerouteReason; label: string; severity: "high" | "med" | "low" }[] = [
+  { value: "worsening", label: "Symptoms worsening", severity: "high" },
+  { value: "specialist", label: "Needs specialist / hospital-level care", severity: "high" },
+  { value: "travel", label: "Patient unable to travel to AI-recommended clinic", severity: "med" },
+  { value: "closer", label: "Closer facility available", severity: "med" },
+  { value: "other", label: "Other", severity: "low" },
+];
+
+export const rerouteReasonLabel = (v?: string | null): string | null =>
+  REROUTE_REASONS.find((r) => r.value === v)?.label ?? null;
 
 export const urgencyRank = (u: string): number =>
   u === "emergency" ? 3 : u === "urgent" ? 2 : 1;

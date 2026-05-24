@@ -24,9 +24,12 @@ export type Database = {
           is_dengue_hotspot: boolean | null
           language: string
           mode: string
+          original_clinic: string | null
           postcode: string | null
           recommended_clinic: string
           red_flag: boolean
+          reroute_note: string | null
+          reroute_reason: string | null
           status: string
           triage_summary: string
           urgency: string
@@ -40,9 +43,12 @@ export type Database = {
           is_dengue_hotspot?: boolean | null
           language: string
           mode: string
+          original_clinic?: string | null
           postcode?: string | null
           recommended_clinic: string
           red_flag?: boolean
+          reroute_note?: string | null
+          reroute_reason?: string | null
           status?: string
           triage_summary: string
           urgency: string
@@ -56,9 +62,12 @@ export type Database = {
           is_dengue_hotspot?: boolean | null
           language?: string
           mode?: string
+          original_clinic?: string | null
           postcode?: string | null
           recommended_clinic?: string
           red_flag?: boolean
+          reroute_note?: string | null
+          reroute_reason?: string | null
           status?: string
           triage_summary?: string
           urgency?: string

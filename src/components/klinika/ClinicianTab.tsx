@@ -2,8 +2,9 @@ import { useMemo, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { toast } from "sonner";
 import type { TriageCase, Status } from "@/lib/klinika";
-import { urgencyRank, timeAgo, flowLabel } from "@/lib/klinika";
+import { urgencyRank, timeAgo } from "@/lib/klinika";
 import { CaseDetailSheet } from "./CaseDetailSheet";
+import { RerouteModal } from "./RerouteModal";
 import { UrgencyBadge, FlowBadge, LanguageBadge } from "./badges";
 import { Button } from "@/components/ui/button";
 import {
@@ -20,18 +21,26 @@ import { cn } from "@/lib/utils";
 interface Props {
   cases: TriageCase[];
   updateStatus: (id: string, status: Status) => Promise<void>;
+  rerouteCase?: (
+    id: string,
+    payload: { clinic: string; reason: string; note?: string | null },
+  ) => Promise<void>;
 }
 
 interface RowProps {
   case: TriageCase;
   onOpen: () => void;
   onAction: (status: Status) => void;
+  onReroute?: () => void;
   pending: Status | null;
 }
 
-function CaseRow({ case: c, onOpen, onAction, pending }: RowProps) {
+function CaseRow({ case: c, onOpen, onAction, onReroute, pending }: RowProps) {
   const [expanded, setExpanded] = useState(false);
   const isLong = (c.triage_summary?.length ?? 0) > 220;
+  const isEmergencyRow = c.red_flag || c.urgency === "emergency";
+  const showReroute = !!onReroute && (isEmergencyRow || c.urgency === "urgent");
+
 
   return (
     <div
@@ -102,9 +111,23 @@ function CaseRow({ case: c, onOpen, onAction, pending }: RowProps) {
 
         {/* Footer: clinic + actions */}
         <div className="flex items-end justify-between gap-3 flex-wrap pt-1">
-          <div className="flex items-start gap-1.5 text-xs text-muted-foreground min-w-0">
-            <MapPin className="h-3.5 w-3.5 mt-0.5 shrink-0" />
-            <span className="truncate">{c.recommended_clinic}</span>
+          <div className="flex flex-col gap-0.5 text-xs text-muted-foreground min-w-0">
+            <div className="flex items-start gap-1.5">
+              <MapPin className="h-3.5 w-3.5 mt-0.5 shrink-0" />
+              <span className="truncate">{c.recommended_clinic}</span>
+            </div>
+            <span
+              className={cn(
+                "text-[10px] uppercase tracking-wide font-medium ml-5",
+                c.original_clinic && c.original_clinic !== c.recommended_clinic
+                  ? "text-primary"
+                  : "text-muted-foreground/70",
+              )}
+            >
+              {c.original_clinic && c.original_clinic !== c.recommended_clinic
+                ? "Clinician recommended"
+                : "AI Recommended"}
+            </span>
           </div>
           <div className="flex gap-2 ml-auto">
             <Button
@@ -122,23 +145,25 @@ function CaseRow({ case: c, onOpen, onAction, pending }: RowProps) {
               )}
               Mark Reviewed
             </Button>
-            <Button
-              size="sm"
-              disabled={!!pending}
-              className="text-white hover:opacity-90"
-              style={{ backgroundColor: "#D85A30" }}
-              onClick={(e) => {
-                e.stopPropagation();
-                onAction("escalated");
-              }}
-            >
-              {pending === "escalated" ? (
-                <Loader2 className="h-3.5 w-3.5 animate-spin" />
-              ) : (
+            {showReroute && (
+              <Button
+                size="sm"
+                variant="outline"
+                disabled={!!pending}
+                className={cn(
+                  isEmergencyRow
+                    ? "border-destructive/40 text-destructive hover:bg-destructive/10 hover:text-destructive"
+                    : "border-warning/40 text-warning hover:bg-warning/10 hover:text-warning",
+                )}
+                onClick={(e) => {
+                  e.stopPropagation();
+                  onReroute?.();
+                }}
+              >
                 <ArrowUpRight className="h-3.5 w-3.5" />
-              )}
-              Escalate
-            </Button>
+                Reroute
+              </Button>
+            )}
           </div>
         </div>
       </div>
@@ -153,6 +178,7 @@ function SectionList({
   pending,
   onOpen,
   onAction,
+  onReroute,
 }: {
   title: React.ReactNode;
   accent: "destructive" | "muted";
@@ -160,6 +186,7 @@ function SectionList({
   pending: Record<string, Status | null>;
   onOpen: (c: TriageCase) => void;
   onAction: (c: TriageCase, status: Status) => void;
+  onReroute?: (c: TriageCase) => void;
 }) {
   return (
     <section className="space-y-3">
@@ -187,6 +214,7 @@ function SectionList({
                 case={c}
                 onOpen={() => onOpen(c)}
                 onAction={(s) => onAction(c, s)}
+                onReroute={onReroute ? () => onReroute(c) : undefined}
                 pending={pending[c.id] ?? null}
               />
             </motion.div>
@@ -197,9 +225,10 @@ function SectionList({
   );
 }
 
-export function ClinicianTab({ cases, updateStatus }: Props) {
+export function ClinicianTab({ cases, updateStatus, rerouteCase }: Props) {
   const [pending, setPending] = useState<Record<string, Status | null>>({});
   const [selected, setSelected] = useState<TriageCase | null>(null);
+  const [rerouteTarget, setRerouteTarget] = useState<TriageCase | null>(null);
 
   const { emergencies, pendingList } = useMemo(() => {
     const open = cases
@@ -276,6 +305,7 @@ export function ClinicianTab({ cases, updateStatus }: Props) {
               pending={pending}
               onOpen={setSelected}
               onAction={handleAction}
+              onReroute={rerouteCase ? setRerouteTarget : undefined}
             />
           )}
           {pendingList.length > 0 && (
@@ -286,6 +316,7 @@ export function ClinicianTab({ cases, updateStatus }: Props) {
               pending={pending}
               onOpen={setSelected}
               onAction={handleAction}
+              onReroute={rerouteCase ? setRerouteTarget : undefined}
             />
           )}
         </div>
@@ -296,7 +327,28 @@ export function ClinicianTab({ cases, updateStatus }: Props) {
         open={!!selected}
         onOpenChange={(o) => !o && setSelected(null)}
         updateStatus={updateStatus}
+        rerouteCase={rerouteCase}
       />
+
+      {rerouteCase && (
+        <RerouteModal
+          case={rerouteTarget}
+          open={!!rerouteTarget}
+          onOpenChange={(o) => !o && setRerouteTarget(null)}
+          onConfirm={async (p) => {
+            if (!rerouteTarget) return;
+            try {
+              await rerouteCase(rerouteTarget.id, p);
+              toast.success("Recommendation sent", { description: p.clinic });
+            } catch (e) {
+              toast.error("Failed to reroute", {
+                description: e instanceof Error ? e.message : "Please try again",
+              });
+              throw e;
+            }
+          }}
+        />
+      )}
     </div>
   );
 }

@@ -2,17 +2,22 @@ import { useState } from "react";
 import { Sheet, SheetContent, SheetHeader, SheetTitle } from "@/components/ui/sheet";
 import { Button } from "@/components/ui/button";
 import type { TriageCase, Status } from "@/lib/klinika";
-import { timeAgo } from "@/lib/klinika";
+import { timeAgo, rerouteReasonLabel } from "@/lib/klinika";
 import { UrgencyBadge, FlowBadge, LanguageBadge } from "./badges";
-import { AlertTriangle, Shield, Copy, Check, ArrowUpRight, Loader2 } from "lucide-react";
+import { AlertTriangle, Shield, Copy, Check, ArrowUpRight, Loader2, Sparkles } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { format } from "date-fns";
+import { RerouteModal } from "./RerouteModal";
 
 interface Props {
   case: TriageCase | null;
   open: boolean;
   onOpenChange: (open: boolean) => void;
   updateStatus?: (id: string, status: Status) => Promise<void>;
+  rerouteCase?: (
+    id: string,
+    payload: { clinic: string; reason: string; note?: string | null },
+  ) => Promise<void>;
 }
 
 function Field({ label, value, labelClassName }: { label: string; value: React.ReactNode; labelClassName?: string }) {
@@ -45,15 +50,19 @@ function StatusPill({ status }: { status: string }) {
   );
 }
 
-export function CaseDetailSheet({ case: c, open, onOpenChange, updateStatus }: Props) {
+export function CaseDetailSheet({ case: c, open, onOpenChange, updateStatus, rerouteCase }: Props) {
   const [pending, setPending] = useState<Status | null>(null);
   const [copied, setCopied] = useState(false);
+  const [rerouteOpen, setRerouteOpen] = useState(false);
 
   if (!c) return null;
 
   const isEmergency = c.red_flag || c.urgency === "emergency";
+  const isUrgent = c.urgency === "urgent";
+  const canReroute = (isEmergency || isUrgent) && !!rerouteCase;
   const isAnonymous = c.mode === "anonymous";
   const isClosed = c.status === "reviewed" || c.status === "escalated";
+  const wasRerouted = !!c.original_clinic && c.original_clinic !== c.recommended_clinic;
 
   const handle = async (status: Status) => {
     if (!updateStatus) return;
@@ -137,7 +146,46 @@ export function CaseDetailSheet({ case: c, open, onOpenChange, updateStatus }: P
             value={<p className="font-medium">{c.chief_complaint}</p>}
           />
 
-          <Field label="Recommended clinic" value={c.recommended_clinic} />
+          {/* Recommended clinic — with before/after if rerouted */}
+          {wasRerouted ? (
+            <div>
+              <p className="text-xs font-medium uppercase tracking-wide mb-2 text-muted-foreground">
+                Clinic recommendation
+              </p>
+              <div className="space-y-2">
+                <div className="text-sm text-muted-foreground line-through inline-flex items-center gap-1.5">
+                  <Sparkles className="h-3.5 w-3.5" />
+                  AI recommended: {c.original_clinic}
+                </div>
+                <div className="text-sm font-semibold" style={{ color: "#0D9E75" }}>
+                  Clinician recommended: {c.recommended_clinic}
+                </div>
+                {c.reroute_reason && (
+                  <div className="text-xs italic text-muted-foreground">
+                    Reason: {rerouteReasonLabel(c.reroute_reason) ?? c.reroute_reason}
+                  </div>
+                )}
+                {c.reroute_note && (
+                  <div className="text-xs text-foreground/80 bg-muted/50 rounded p-2">
+                    “{c.reroute_note}”
+                  </div>
+                )}
+              </div>
+            </div>
+          ) : (
+            <Field
+              label="Recommended clinic"
+              value={
+                <div className="space-y-1">
+                  <div className="font-medium">{c.recommended_clinic}</div>
+                  <div className="inline-flex items-center gap-1 text-[11px] text-muted-foreground">
+                    <Sparkles className="h-3 w-3" />
+                    AI Recommended
+                  </div>
+                </div>
+              }
+            />
+          )}
 
           <div className="grid grid-cols-2 gap-4">
             <Field
@@ -205,24 +253,36 @@ export function CaseDetailSheet({ case: c, open, onOpenChange, updateStatus }: P
                   )}
                   Mark Reviewed
                 </Button>
-                <Button
-                  variant="outline"
-                  className="flex-1 border-destructive/40 text-destructive hover:bg-destructive/10 hover:text-destructive"
-                  disabled={!!pending || !updateStatus}
-                  onClick={() => handle("escalated")}
-                >
-                  {pending === "escalated" ? (
-                    <Loader2 className="h-4 w-4 animate-spin" />
-                  ) : (
+                {canReroute && (
+                  <Button
+                    variant="outline"
+                    className={cn(
+                      "flex-1",
+                      isEmergency
+                        ? "border-destructive/40 text-destructive hover:bg-destructive/10 hover:text-destructive"
+                        : "border-warning/40 text-warning hover:bg-warning/10 hover:text-warning",
+                    )}
+                    disabled={!!pending}
+                    onClick={() => setRerouteOpen(true)}
+                  >
                     <ArrowUpRight className="h-4 w-4" />
-                  )}
-                  Escalate
-                </Button>
+                    Reroute
+                  </Button>
+                )}
               </div>
             )}
           </div>
         </div>
       </SheetContent>
+
+      {rerouteCase && (
+        <RerouteModal
+          case={c}
+          open={rerouteOpen}
+          onOpenChange={setRerouteOpen}
+          onConfirm={(p) => rerouteCase(c.id, p)}
+        />
+      )}
     </Sheet>
   );
 }
