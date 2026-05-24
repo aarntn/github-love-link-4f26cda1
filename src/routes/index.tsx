@@ -1,4 +1,4 @@
-import { createFileRoute, Link } from "@tanstack/react-router";
+import { createFileRoute } from "@tanstack/react-router";
 import { useState } from "react";
 import { MessageCircle, ShieldCheck, Sparkles, Check, Copy, Phone } from "lucide-react";
 import { cn } from "@/lib/utils";
@@ -52,30 +52,21 @@ function Header() {
   return (
     <header className="border-b border-border/40">
       <div className="max-w-6xl mx-auto px-5 md:px-8 h-16 flex items-center justify-between">
-        <Link to="/" className="flex items-center gap-2 font-semibold tracking-tight">
-          <LogoMark />
+        <div className="flex items-center gap-2 font-semibold tracking-tight">
+          <BrandIcon className="h-5 w-5 text-primary" />
           <span className="text-lg">Klinika</span>
-        </Link>
-        <Link
-          to="/dashboard"
-          className="text-sm text-muted-foreground hover:text-foreground transition-colors"
-        >
-          Clinician Dashboard →
-        </Link>
+        </div>
       </div>
     </header>
   );
 }
 
-function LogoMark() {
+function BrandIcon({ className }: { className?: string }) {
   return (
-    <span
-      className="inline-flex h-8 w-8 items-center justify-center rounded-lg text-white font-bold"
-      style={{ backgroundColor: TEAL }}
-      aria-hidden
-    >
-      +
-    </span>
+    <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24" className={className}>
+      <path d="M0 0h24v24H0z" fill="none" />
+      <path fill="currentColor" d="M10 3.25A1.75 1.75 0 0 0 8.25 5v3.25H5A1.75 1.75 0 0 0 3.25 10v4c0 .966.784 1.75 1.75 1.75h3.25V19c0 .966.784 1.75 1.75 1.75h4A1.75 1.75 0 0 0 15.75 19v-3.25H19A1.75 1.75 0 0 0 20.75 14v-4A1.75 1.75 0 0 0 19 8.25h-3.25V5A1.75 1.75 0 0 0 14 3.25z" />
+    </svg>
   );
 }
 
@@ -313,7 +304,7 @@ function Footer() {
       <div className="max-w-6xl mx-auto space-y-6">
         <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
           <div className="flex items-center gap-2.5">
-            <LogoMark />
+            <BrandIcon className="h-5 w-5 text-primary" />
             <div>
               <div className="font-semibold leading-tight">Klinika</div>
               <div className="text-xs text-muted-foreground">
@@ -321,11 +312,7 @@ function Footer() {
               </div>
             </div>
           </div>
-          <div className="flex items-center gap-4 text-xs text-muted-foreground">
-            <Link to="/dashboard" className="hover:text-foreground transition-colors">
-              Clinician Dashboard
-            </Link>
-            <span aria-hidden>·</span>
+          <div className="text-xs text-muted-foreground">
             <span>Built for Vibeathon 2025</span>
           </div>
         </div>
