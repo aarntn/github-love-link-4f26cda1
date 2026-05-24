@@ -66,9 +66,7 @@ function BrandIcon({ className }: { className?: string }) {
 function Brand() {
   return (
     <div className="px-6 py-6 flex items-center gap-2">
-      <div className="h-8 w-8 rounded-lg bg-primary flex items-center justify-center text-primary-foreground">
-        <BrandIcon className="h-4 w-4" />
-      </div>
+      <BrandIcon className="h-8 w-8 text-primary" />
       <div>
         <p className="font-semibold text-foreground tracking-tight leading-none">Klinika</p>
       </div>
@@ -111,9 +109,7 @@ export function AppSidebar({ active, onChange }: Props) {
           </SheetContent>
         </Sheet>
         <div className="flex items-center gap-2">
-          <div className="h-6 w-6 rounded-md bg-primary flex items-center justify-center text-primary-foreground">
-            <BrandIcon className="h-3 w-3" />
-          </div>
+          <BrandIcon className="h-6 w-6 text-primary" />
           <span className="font-semibold text-sm">Klinika</span>
         </div>
       </header>
