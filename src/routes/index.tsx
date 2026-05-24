@@ -1,4 +1,4 @@
-import { createFileRoute, Link } from "@tanstack/react-router";
+import { createFileRoute } from "@tanstack/react-router";
 import { useState } from "react";
 import { MessageCircle, ShieldCheck, Sparkles, Check, Copy, Phone } from "lucide-react";
 import { cn } from "@/lib/utils";
