@@ -8,13 +8,10 @@ import {
   YAxis,
   Tooltip,
   ResponsiveContainer,
-  PieChart,
-  Pie,
-  Cell,
-  Legend,
   CartesianGrid,
 } from "recharts";
 import { Activity, AlertTriangle, MapPin, ShieldCheck } from "lucide-react";
+
 
 const TEAL = "oklch(0.62 0.13 165)";
 const CORAL = "oklch(0.62 0.18 35)";
@@ -67,19 +64,15 @@ export function ImpactTab({ cases }: Props) {
       count: cases.filter((c) => c.flow === f).length,
     }));
 
-    const channelCounts = ["whatsapp", "web"].map((ch) => ({
-      name: ch === "whatsapp" ? "WhatsApp" : "Web",
-      value: cases.filter((c) => c.channel === ch).length,
-    }));
-
     const clinicMap = new Map<string, number>();
     cases.forEach((c) => clinicMap.set(c.recommended_clinic, (clinicMap.get(c.recommended_clinic) ?? 0) + 1));
     const clinics = Array.from(clinicMap.entries())
       .map(([name, count]) => ({ name, count }))
       .sort((a, b) => b.count - a.count);
 
-    return { total, redFlags, dengueHotspots, anonTb, flowCounts, channelCounts, clinics };
+    return { total, redFlags, dengueHotspots, anonTb, flowCounts, clinics };
   }, [cases]);
+
 
   return (
     <div className="space-y-6">
@@ -97,42 +90,19 @@ export function ImpactTab({ cases }: Props) {
         <StatCard icon={ShieldCheck} label="Anonymous TB screens" value={stats.anonTb} accent="muted" />
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
-        <div className="bg-card border rounded-xl p-5">
-          <h3 className="text-sm font-semibold mb-4">Cases by flow</h3>
-          <ResponsiveContainer width="100%" height={240}>
-            <BarChart data={stats.flowCounts}>
-              <CartesianGrid strokeDasharray="3 3" stroke="oklch(0.92 0.005 240)" />
-              <XAxis dataKey="name" tick={{ fontSize: 12 }} />
-              <YAxis tick={{ fontSize: 12 }} allowDecimals={false} />
-              <Tooltip />
-              <Bar dataKey="count" fill={TEAL} radius={[6, 6, 0, 0]} />
-            </BarChart>
-          </ResponsiveContainer>
-        </div>
-
-        <div className="bg-card border rounded-xl p-5">
-          <h3 className="text-sm font-semibold mb-4">Channels</h3>
-          <ResponsiveContainer width="100%" height={240}>
-            <PieChart>
-              <Pie
-                data={stats.channelCounts}
-                dataKey="value"
-                nameKey="name"
-                innerRadius={50}
-                outerRadius={85}
-                paddingAngle={2}
-              >
-                {stats.channelCounts.map((_, i) => (
-                  <Cell key={i} fill={i === 0 ? TEAL : SLATE} />
-                ))}
-              </Pie>
-              <Tooltip />
-              <Legend />
-            </PieChart>
-          </ResponsiveContainer>
-        </div>
+      <div className="bg-card border rounded-xl p-5">
+        <h3 className="text-sm font-semibold mb-4">Cases by flow</h3>
+        <ResponsiveContainer width="100%" height={280}>
+          <BarChart data={stats.flowCounts}>
+            <CartesianGrid strokeDasharray="3 3" stroke="oklch(0.92 0.005 240)" />
+            <XAxis dataKey="name" tick={{ fontSize: 12 }} />
+            <YAxis tick={{ fontSize: 12 }} allowDecimals={false} />
+            <Tooltip />
+            <Bar dataKey="count" fill={TEAL} radius={[6, 6, 0, 0]} />
+          </BarChart>
+        </ResponsiveContainer>
       </div>
+
 
       <div className="bg-card border rounded-xl p-5">
         <h3 className="text-sm font-semibold mb-4">Top recommended clinics</h3>
