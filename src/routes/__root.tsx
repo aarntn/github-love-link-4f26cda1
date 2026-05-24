@@ -4,7 +4,6 @@ import {
   Link,
   createRootRouteWithContext,
   useRouter,
-  useRouterState,
   HeadContent,
   Scripts,
 } from "@tanstack/react-router";
@@ -73,20 +72,17 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "JagaKL — Free Health Guide KL" },
-      { name: "description", content: "Multilingual WhatsApp health triage for migrants, refugees, and B40 communities in Kuala Lumpur." },
-      { name: "author", content: "JagaKL" },
-      { property: "og:title", content: "JagaKL — Free Health Guide KL" },
-      { property: "og:description", content: "Multilingual WhatsApp health triage for migrants, refugees, and B40 communities in Kuala Lumpur." },
+      { title: "Klinika — Clinician Triage Console" },
+      { name: "description", content: "Real-time AI triage dashboard for healthcare workers in Kuala Lumpur." },
+      { property: "og:title", content: "Klinika — Clinician Triage Console" },
+      { property: "og:description", content: "Real-time AI triage dashboard for healthcare workers in Kuala Lumpur." },
       { property: "og:type", content: "website" },
-      { name: "twitter:card", content: "summary" },
-      { name: "twitter:site", content: "@Lovable" },
     ],
     links: [
-      {
-        rel: "stylesheet",
-        href: appCss,
-      },
+      { rel: "stylesheet", href: appCss },
+      { rel: "preconnect", href: "https://fonts.googleapis.com" },
+      { rel: "preconnect", href: "https://fonts.gstatic.com", crossOrigin: "anonymous" },
+      { rel: "stylesheet", href: "https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" },
     ],
   }),
   shellComponent: RootShell,
@@ -109,48 +105,11 @@ function RootShell({ children }: { children: React.ReactNode }) {
   );
 }
 
-function NavBar() {
-  const { location } = useRouterState();
-  const path = location.pathname;
-  const hide = path === "/"; // no nav on landing page
-
-  if (hide) return null;
-
-  return (
-    <nav className="bg-emerald-700 text-white px-4 py-2 flex items-center gap-4 text-sm">
-      <Link to="/" className="font-bold text-base leading-none mr-2">
-        🏥 JagaKL
-      </Link>
-      <Link
-        to="/chat"
-        className={`px-3 py-1 rounded-lg transition-colors ${
-          path === "/chat"
-            ? "bg-white/20 font-semibold"
-            : "hover:bg-white/10"
-        }`}
-      >
-        Chat
-      </Link>
-      <Link
-        to="/dashboard"
-        className={`px-3 py-1 rounded-lg transition-colors ${
-          path.startsWith("/dashboard") || path.startsWith("/session")
-            ? "bg-white/20 font-semibold"
-            : "hover:bg-white/10"
-        }`}
-      >
-        Dashboard
-      </Link>
-    </nav>
-  );
-}
-
 function RootComponent() {
   const { queryClient } = Route.useRouteContext();
 
   return (
     <QueryClientProvider client={queryClient}>
-      <NavBar />
       <Outlet />
     </QueryClientProvider>
   );
