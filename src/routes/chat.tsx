@@ -7,7 +7,7 @@ export const Route = createFileRoute("/chat")({
 
 function ChatPage() {
   return (
-    <div className="min-h-screen bg-emerald-50 flex items-center justify-center p-4">
+    <div className="min-h-[calc(100vh-40px)] bg-emerald-50 flex items-center justify-center p-4">
       <ChatWidget phone="web-demo" />
     </div>
   );

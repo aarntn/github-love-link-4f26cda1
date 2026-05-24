@@ -4,6 +4,7 @@ import {
   Link,
   createRootRouteWithContext,
   useRouter,
+  useRouterState,
   HeadContent,
   Scripts,
 } from "@tanstack/react-router";
@@ -108,11 +109,48 @@ function RootShell({ children }: { children: React.ReactNode }) {
   );
 }
 
+function NavBar() {
+  const { location } = useRouterState();
+  const path = location.pathname;
+  const hide = path === "/"; // no nav on landing page
+
+  if (hide) return null;
+
+  return (
+    <nav className="bg-emerald-700 text-white px-4 py-2 flex items-center gap-4 text-sm">
+      <Link to="/" className="font-bold text-base leading-none mr-2">
+        🏥 JagaKL
+      </Link>
+      <Link
+        to="/chat"
+        className={`px-3 py-1 rounded-lg transition-colors ${
+          path === "/chat"
+            ? "bg-white/20 font-semibold"
+            : "hover:bg-white/10"
+        }`}
+      >
+        Chat
+      </Link>
+      <Link
+        to="/dashboard"
+        className={`px-3 py-1 rounded-lg transition-colors ${
+          path.startsWith("/dashboard") || path.startsWith("/session")
+            ? "bg-white/20 font-semibold"
+            : "hover:bg-white/10"
+        }`}
+      >
+        Dashboard
+      </Link>
+    </nav>
+  );
+}
+
 function RootComponent() {
   const { queryClient } = Route.useRouteContext();
 
   return (
     <QueryClientProvider client={queryClient}>
+      <NavBar />
       <Outlet />
     </QueryClientProvider>
   );
