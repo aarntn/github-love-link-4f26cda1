@@ -1,0 +1,324 @@
+{
+  "drugs": [
+    {
+      "generic_name": "Metformin",
+      "brand_names": ["Glucophage", "Metforal", "Diabex"],
+      "drug_class": "Biguanide (anti-diabetic)",
+      "common_dose": "500mg–1000mg",
+      "frequency": "2–3 times daily with meals",
+      "food_instructions": "Take with or after food to reduce stomach upset. Do NOT take on an empty stomach.",
+      "side_effects": ["nausea", "diarrhoea", "stomach cramps", "metallic taste", "loss of appetite"],
+      "red_flag_symptoms": ["severe stomach pain", "muscle weakness", "difficulty breathing", "extreme tiredness"],
+      "translations": {
+        "en": "Take with food. Controls blood sugar. Do NOT skip doses.",
+        "ms": "Makan bersama makanan. Mengawal gula darah. JANGAN terlepas dos.",
+        "ta": "உணவுடன் சாப்பிடவும். இரத்த சர்க்கரையை கட்டுப்படுத்துகிறது.",
+        "zh": "随餐服用。控制血糖。不要漏服。"
+      }
+    },
+    {
+      "generic_name": "Glibenclamide",
+      "brand_names": ["Daonil", "Euglucon", "Semi-Daonil"],
+      "drug_class": "Sulfonylurea (anti-diabetic)",
+      "common_dose": "2.5mg–10mg",
+      "frequency": "Once or twice daily, 30 minutes before meals",
+      "food_instructions": "Take 30 minutes before meals. Eat regularly — do NOT skip meals or you may have low blood sugar.",
+      "side_effects": ["low blood sugar (hypoglycaemia)", "weight gain", "nausea", "dizziness"],
+      "red_flag_symptoms": ["shaking", "sweating", "confusion", "loss of consciousness", "feeling very hungry suddenly"],
+      "translations": {
+        "en": "Take before meals. Eat on time — skipping meals causes dangerous low blood sugar.",
+        "ms": "Makan sebelum makan. Makan tepat pada waktunya — melepaskan waktu makan menyebabkan gula darah rendah yang berbahaya.",
+        "ta": "உணவிற்கு முன் சாப்பிடவும். உணவை தவிர்க்காதீர்கள்.",
+        "zh": "饭前30分钟服用。不要漏餐，否则可能低血糖。"
+      }
+    },
+    {
+      "generic_name": "Gliclazide",
+      "brand_names": ["Diamicron", "Diamicron MR", "Glizide"],
+      "drug_class": "Sulfonylurea (anti-diabetic)",
+      "common_dose": "40mg–320mg (standard) or 30mg–120mg (MR)",
+      "frequency": "Once or twice daily with meals",
+      "food_instructions": "Take with breakfast. MR (modified release) formulation: swallow whole, do NOT crush.",
+      "side_effects": ["low blood sugar", "weight gain", "nausea", "headache"],
+      "red_flag_symptoms": ["prolonged shaking or sweating", "confusion", "loss of consciousness"],
+      "translations": {
+        "en": "Take with breakfast. If MR tablet, swallow whole — do NOT break or crush.",
+        "ms": "Makan bersama sarapan. Tablet MR: telan bulat-bulat, JANGAN hancurkan.",
+        "ta": "காலை உணவுடன் சாப்பிடவும். MR மாத்திரையை உடைக்காதீர்கள்.",
+        "zh": "随早餐服用。MR片剂请整片吞服，不要压碎。"
+      }
+    },
+    {
+      "generic_name": "Insulin NPH",
+      "brand_names": ["Insulatard", "Humulin N", "Insuman Basal"],
+      "drug_class": "Intermediate-acting insulin",
+      "common_dose": "As prescribed (units)",
+      "frequency": "Once or twice daily (usually morning and/or bedtime)",
+      "food_instructions": "Inject under skin. Rotate injection sites. Store unopened vials in fridge; opened vials at room temperature up to 28 days.",
+      "side_effects": ["low blood sugar", "injection site redness", "weight gain"],
+      "red_flag_symptoms": ["severe shaking", "confusion", "unconsciousness", "cloudy vision after injection"],
+      "translations": {
+        "en": "Inject under skin as prescribed. Mix gently by rolling — do NOT shake. Keep cold until opened.",
+        "ms": "Suntik di bawah kulit seperti yang ditetapkan. Goncang perlahan dengan menggolek — JANGAN kocok. Simpan di peti sejuk sebelum dibuka.",
+        "ta": "மருத்துவர் பரிந்துரைத்தபடி தோலுக்கு அடியில் ஊசி போடவும்.",
+        "zh": "按处方皮下注射。轻柔混匀，不要用力摇晃。开封前冷藏保存。"
+      }
+    },
+    {
+      "generic_name": "Amlodipine",
+      "brand_names": ["Norvasc", "Amlodis", "Amvaz"],
+      "drug_class": "Calcium channel blocker (anti-hypertensive)",
+      "common_dose": "5mg–10mg",
+      "frequency": "Once daily",
+      "food_instructions": "Can be taken with or without food. Take at the same time each day.",
+      "side_effects": ["ankle swelling", "flushing", "headache", "dizziness", "palpitations"],
+      "red_flag_symptoms": ["severe chest pain", "severe dizziness or fainting", "rapid heartbeat"],
+      "translations": {
+        "en": "Take once daily. May cause ankle swelling — this is common. Report if you feel chest pain.",
+        "ms": "Makan sekali sehari. Boleh menyebabkan bengkak buku lali — ini biasa. Lapor jika rasa sakit dada.",
+        "ta": "தினமும் ஒரு முறை சாப்பிடவும். கணுக்கால் வீக்கம் பொதுவானது.",
+        "zh": "每日一次。踝关节肿胀是常见副作用。如有胸痛请就医。"
+      }
+    },
+    {
+      "generic_name": "Atenolol",
+      "brand_names": ["Tenormin", "Ateno", "Blokium"],
+      "drug_class": "Beta-blocker (anti-hypertensive)",
+      "common_dose": "25mg–100mg",
+      "frequency": "Once daily",
+      "food_instructions": "Take consistently with or without food. Do NOT stop suddenly.",
+      "side_effects": ["fatigue", "cold hands and feet", "slow heart rate", "dizziness", "shortness of breath"],
+      "red_flag_symptoms": ["very slow pulse below 50 bpm", "severe breathlessness", "fainting"],
+      "translations": {
+        "en": "Do NOT stop taking suddenly — taper under doctor supervision. Controls heart rate and blood pressure.",
+        "ms": "JANGAN berhenti minum secara tiba-tiba — kurangkan di bawah pengawasan doktor.",
+        "ta": "திடீரென நிறுத்தாதீர்கள் — மருத்துவர் வழிகாட்டுதலில் குறைக்கவும்.",
+        "zh": "不可突然停药，需在医生指导下逐渐减量。"
+      }
+    },
+    {
+      "generic_name": "Losartan",
+      "brand_names": ["Cozaar", "Lozapin", "Neolosar"],
+      "drug_class": "ARB (angiotensin receptor blocker)",
+      "common_dose": "25mg–100mg",
+      "frequency": "Once daily",
+      "food_instructions": "Can take with or without food. Avoid excessive potassium-rich foods such as bananas and salt substitutes.",
+      "side_effects": ["dizziness", "back pain", "nasal congestion", "high potassium"],
+      "red_flag_symptoms": ["face or lip or tongue swelling (angioedema)", "severe dizziness", "reduced urination"],
+      "translations": {
+        "en": "Protects kidneys in diabetics. Avoid potassium supplements. Stop and see doctor if face swells.",
+        "ms": "Melindungi buah pinggang dalam pesakit diabetes. Elak suplemen kalium. Berhenti dan jumpa doktor jika muka bengkak.",
+        "ta": "நீரிழிவு நோயாளிகளில் சிறுநீரகத்தை பாதுகாக்கிறது.",
+        "zh": "保护糖尿病患者肾脏。如面部肿胀，立即就医。"
+      }
+    },
+    {
+      "generic_name": "Enalapril",
+      "brand_names": ["Renitec", "Vasotec", "Enacard"],
+      "drug_class": "ACE inhibitor (anti-hypertensive)",
+      "common_dose": "2.5mg–20mg",
+      "frequency": "Once or twice daily",
+      "food_instructions": "Take consistently with or without food. A dry cough is a common side effect.",
+      "side_effects": ["dry persistent cough", "dizziness", "headache", "high potassium"],
+      "red_flag_symptoms": ["face or throat swelling — angioedema — STOP immediately", "fainting", "severe muscle weakness"],
+      "translations": {
+        "en": "Dry cough is common — tell your doctor if bothersome. STOP immediately if face or throat swells and go to ER.",
+        "ms": "Batuk kering adalah biasa — beritahu doktor jika mengganggu. BERHENTI serta-merta jika muka atau tekak bengkak.",
+        "ta": "வறட்டு இருமல் பொதுவானது. முகம் அல்லது தொண்டை வீங்கினால் உடனே நிறுத்தி மருத்துவமனை போகவும்.",
+        "zh": "干咳常见。如出现面部或喉咙肿胀，立即停药并就医。"
+      }
+    },
+    {
+      "generic_name": "Hydrochlorothiazide",
+      "brand_names": ["Esidrex", "HydroDiuril", "Dichlotride"],
+      "drug_class": "Thiazide diuretic",
+      "common_dose": "12.5mg–25mg",
+      "frequency": "Once daily in the morning",
+      "food_instructions": "Take in the morning — this medicine increases urination. Do NOT take at night.",
+      "side_effects": ["increased urination", "low potassium", "dizziness", "sun sensitivity", "increased blood sugar"],
+      "red_flag_symptoms": ["muscle cramps", "irregular heartbeat", "extreme thirst", "severe dizziness"],
+      "translations": {
+        "en": "Take in the morning ONLY — causes frequent urination. Eat a banana daily to replace potassium.",
+        "ms": "Makan pada WAKTU PAGI sahaja — menyebabkan kencing yang kerap. Makan pisang setiap hari untuk menggantikan kalium.",
+        "ta": "காலையில் மட்டுமே சாப்பிடவும். அடிக்கடி சிறுநீர் வரும்.",
+        "zh": "仅早上服用——会增加排尿。每天吃一根香蕉补充钾。"
+      }
+    },
+    {
+      "generic_name": "Simvastatin",
+      "brand_names": ["Zocor", "Simtin", "Simvast"],
+      "drug_class": "Statin (cholesterol-lowering)",
+      "common_dose": "10mg–40mg",
+      "frequency": "Once daily at night",
+      "food_instructions": "Take at night — the body produces more cholesterol at night. Avoid grapefruit juice.",
+      "side_effects": ["muscle aches", "liver enzyme elevation", "headache", "nausea"],
+      "red_flag_symptoms": ["severe muscle pain or weakness", "dark urine indicating rhabdomyolysis", "jaundice"],
+      "translations": {
+        "en": "Take at NIGHT. Avoid grapefruit. Report severe muscle pain immediately — this is a serious side effect.",
+        "ms": "Makan pada MALAM hari. Elak jus limau gedang. Laporkan sakit otot yang teruk dengan segera.",
+        "ta": "இரவில் சாப்பிடவும். திராட்சைப்பழம் சாப்பிட வேண்டாம். தசை வலி இருந்தால் உடனே தெரிவிக்கவும்.",
+        "zh": "晚上服用。避免葡萄柚。如有严重肌肉疼痛，立即就医。"
+      }
+    },
+    {
+      "generic_name": "Atorvastatin",
+      "brand_names": ["Lipitor", "Atorlip", "Atorcal"],
+      "drug_class": "Statin (cholesterol-lowering)",
+      "common_dose": "10mg–80mg",
+      "frequency": "Once daily (morning or night)",
+      "food_instructions": "Can take any time of day. Avoid large amounts of grapefruit juice.",
+      "side_effects": ["muscle aches", "joint pain", "nausea", "diarrhoea", "liver changes"],
+      "red_flag_symptoms": ["severe muscle pain", "muscle weakness", "brown or dark urine", "jaundice"],
+      "translations": {
+        "en": "Can take any time. Report any muscle pain to your doctor. Avoid grapefruit juice.",
+        "ms": "Boleh makan pada bila-bila masa. Laporkan sebarang sakit otot kepada doktor anda.",
+        "ta": "எந்த நேரத்திலும் சாப்பிடலாம். தசை வலியை மருத்துவரிடம் தெரிவிக்கவும்.",
+        "zh": "任何时间服用均可。如有肌肉疼痛，请告知医生。"
+      }
+    },
+    {
+      "generic_name": "Aspirin",
+      "brand_names": ["Aspirin Protect", "Cardiprin", "MiniPrin"],
+      "drug_class": "Antiplatelet / salicylate",
+      "common_dose": "75mg–150mg",
+      "frequency": "Once daily with food",
+      "food_instructions": "Take with food or milk to protect stomach. Do NOT take on an empty stomach.",
+      "side_effects": ["stomach irritation", "nausea", "easy bruising", "increased bleeding time"],
+      "red_flag_symptoms": ["black tarry stools", "vomiting blood", "unusual bleeding", "severe stomach pain"],
+      "translations": {
+        "en": "Take with food. Prevents blood clots. Tell any doctor or dentist you take aspirin before procedures.",
+        "ms": "Makan bersama makanan. Mencegah bekuan darah. Beritahu mana-mana doktor atau doktor gigi bahawa anda minum aspirin.",
+        "ta": "உணவுடன் சாப்பிடவும். இரத்த உறைவைத் தடுக்கிறது.",
+        "zh": "随餐服用。预防血栓。任何手术前告知医生您在服用阿司匹林。"
+      }
+    },
+    {
+      "generic_name": "Warfarin",
+      "brand_names": ["Coumadin", "Marevan"],
+      "drug_class": "Anticoagulant (blood thinner)",
+      "common_dose": "1mg–10mg (individually adjusted)",
+      "frequency": "Once daily at the same time",
+      "food_instructions": "Take at the same time every day. Avoid sudden changes in vitamin K foods such as green leafy vegetables. Regular blood test (INR) required.",
+      "side_effects": ["easy bruising", "prolonged bleeding from cuts", "nosebleeds"],
+      "red_flag_symptoms": ["coughing or vomiting blood", "blood in urine", "black tarry stools", "severe headache", "sudden vision change"],
+      "translations": {
+        "en": "CRITICAL: Take same time daily. Regular INR blood test needed. ANY unusual bleeding — go to ER immediately.",
+        "ms": "KRITIKAL: Makan pada masa yang sama setiap hari. Ujian darah INR diperlukan secara berkala. SEBARANG pendarahan luar biasa — pergi ke ER segera.",
+        "ta": "முக்கியம்: தினமும் ஒரே நேரத்தில் சாப்பிடவும். வழக்கத்திற்கு மாறான இரத்தப்போக்கு — உடனே மருத்துவமனை போகவும்.",
+        "zh": "重要：每天同一时间服用。需定期INR血液检测。任何异常出血立即就医。"
+      }
+    },
+    {
+      "generic_name": "Salbutamol",
+      "brand_names": ["Ventolin", "Airomir", "Salamol"],
+      "drug_class": "Short-acting beta-2 agonist (bronchodilator)",
+      "common_dose": "100mcg per puff",
+      "frequency": "As needed (max 4 puffs every 4 hours); or 2 puffs before exercise",
+      "food_instructions": "Shake well before use. Exhale fully, seal lips around mouthpiece, inhale slowly while pressing, hold breath 10 seconds.",
+      "side_effects": ["tremors — shaking hands", "rapid heartbeat", "headache", "throat irritation"],
+      "red_flag_symptoms": ["needing reliever more than 4 times per day for 2 or more days", "no relief from inhaler", "lips turning blue", "cannot speak full sentences"],
+      "translations": {
+        "en": "RELIEVER inhaler — use when short of breath. Shake well before use. If needed more than 4 times per day for 2 days, see doctor urgently.",
+        "ms": "Penyedut PENGHILANG — guna bila sesak nafas. Goncang dengan baik sebelum digunakan. Jika perlu lebih 4 kali sehari selama 2 hari, jumpa doktor dengan segera.",
+        "ta": "மூச்சுத் திணறல் இருக்கும்போது பயன்படுத்தவும். நன்கு குலுக்கிய பின் பயன்படுத்தவும்.",
+        "zh": "急救吸入剂——气短时使用。使用前充分摇匀。如每日需用4次以上超过2天，请立即就医。"
+      }
+    },
+    {
+      "generic_name": "Budesonide",
+      "brand_names": ["Pulmicort", "Rhinocort", "Budecort"],
+      "drug_class": "Inhaled corticosteroid (ICS) — preventive",
+      "common_dose": "100mcg–400mcg per dose",
+      "frequency": "Twice daily (morning and night)",
+      "food_instructions": "Rinse mouth and gargle with water after each use — prevents oral thrush.",
+      "side_effects": ["oral thrush — white patches in mouth", "hoarse voice", "throat irritation"],
+      "red_flag_symptoms": ["white patches in mouth not clearing", "severe wheeze not relieved by salbutamol", "fever"],
+      "translations": {
+        "en": "PREVENTER inhaler — use EVERY DAY even when feeling well. Rinse mouth after each use to prevent fungal infection.",
+        "ms": "Penyedut PENCEGAH — guna SETIAP HARI walaupun rasa sihat. Kumur mulut selepas setiap penggunaan.",
+        "ta": "தடுப்பு சாதனம் — ஆரோக்கியமாக இருந்தாலும் தினமும் பயன்படுத்தவும். பயன்படுத்திய பிறகு வாய் கொப்பளிக்கவும்.",
+        "zh": "预防性吸入剂——每天使用，即使感觉良好。每次使用后漱口，预防口腔真菌感染。"
+      }
+    },
+    {
+      "generic_name": "Omeprazole",
+      "brand_names": ["Losec", "Prilosec", "Omez"],
+      "drug_class": "Proton pump inhibitor (PPI)",
+      "common_dose": "20mg–40mg",
+      "frequency": "Once daily, 30–60 minutes before breakfast",
+      "food_instructions": "Take 30–60 minutes BEFORE eating for best effect. Swallow capsule whole.",
+      "side_effects": ["headache", "nausea", "diarrhoea", "stomach pain", "vitamin B12 deficiency with long-term use"],
+      "red_flag_symptoms": ["black tarry stools", "vomiting blood", "difficulty swallowing", "unexplained weight loss"],
+      "translations": {
+        "en": "Take 30–60 min BEFORE breakfast. Protects stomach. Do not take antacids at the same time.",
+        "ms": "Makan 30–60 minit SEBELUM sarapan. Melindungi perut. Jangan ambil antasid pada masa yang sama.",
+        "ta": "காலை உணவிற்கு 30–60 நிமிடம் முன் சாப்பிடவும்.",
+        "zh": "早餐前30–60分钟服用。保护胃黏膜。"
+      }
+    },
+    {
+      "generic_name": "Metoprolol",
+      "brand_names": ["Betaloc", "Lopressor", "Metolar"],
+      "drug_class": "Cardioselective beta-blocker",
+      "common_dose": "25mg–200mg",
+      "frequency": "Once or twice daily with meals",
+      "food_instructions": "Take with meals to reduce side effects. Do NOT stop suddenly.",
+      "side_effects": ["fatigue", "cold extremities", "dizziness", "slow heart rate", "depression"],
+      "red_flag_symptoms": ["pulse below 50 bpm", "severe breathlessness", "fainting", "sudden worsening heart failure symptoms"],
+      "translations": {
+        "en": "Take with food. Do NOT stop suddenly — dangerous. Controls heart rate. Check pulse regularly.",
+        "ms": "Makan bersama makanan. JANGAN berhenti secara tiba-tiba — berbahaya. Kawal degupan jantung.",
+        "ta": "உணவுடன் சாப்பிடவும். திடீரென நிறுத்தாதீர்கள் — ஆபத்தானது.",
+        "zh": "随餐服用。不可突然停药——危险。控制心率。"
+      }
+    },
+    {
+      "generic_name": "Furosemide",
+      "brand_names": ["Lasix", "Fruside", "Frusid"],
+      "drug_class": "Loop diuretic",
+      "common_dose": "20mg–80mg",
+      "frequency": "Once or twice daily in the morning",
+      "food_instructions": "Take in the morning. Causes frequent urination — plan accordingly. May deplete potassium.",
+      "side_effects": ["frequent urination", "low potassium", "dizziness", "dehydration", "muscle cramps"],
+      "red_flag_symptoms": ["muscle cramps or weakness", "irregular heartbeat", "severe dizziness", "very little urine output"],
+      "translations": {
+        "en": "Take in the morning. Removes excess fluid from body. Eat potassium-rich foods such as banana or orange. Report muscle cramps.",
+        "ms": "Makan pada waktu pagi. Membuang lebihan cecair dari badan. Makan makanan kaya kalium. Laporkan kekejangan otot.",
+        "ta": "காலையில் சாப்பிடவும். உடலில் உள்ள அதிகப்படியான திரவத்தை நீக்குகிறது.",
+        "zh": "早上服用。排出体内多余液体。多吃含钾食物如香蕉、橙子。如有肌肉痉挛，请告知医生。"
+      }
+    },
+    {
+      "generic_name": "Spironolactone",
+      "brand_names": ["Aldactone", "Spiractin"],
+      "drug_class": "Potassium-sparing diuretic / aldosterone antagonist",
+      "common_dose": "25mg–100mg",
+      "frequency": "Once or twice daily with food",
+      "food_instructions": "Take with food. Avoid potassium-rich foods and potassium supplements — this medicine retains potassium.",
+      "side_effects": ["breast tenderness or enlargement", "irregular periods", "high potassium", "dizziness", "nausea"],
+      "red_flag_symptoms": ["muscle weakness", "irregular heartbeat", "reduced urination", "severe nausea"],
+      "translations": {
+        "en": "Take with food. AVOID potassium supplements and excessive bananas — may cause dangerously high potassium.",
+        "ms": "Makan bersama makanan. ELAK suplemen kalium dan pisang berlebihan — boleh menyebabkan kalium terlalu tinggi.",
+        "ta": "உணவுடன் சாப்பிடவும். பொட்டாசியம் சப்ளிமெண்ட்ஸ் தவிர்க்கவும்.",
+        "zh": "随餐服用。避免钾补充剂和过量香蕉——可能导致钾过高。"
+      }
+    },
+    {
+      "generic_name": "Prednisolone",
+      "brand_names": ["Deltacortril", "Predsol", "Meticortelone"],
+      "drug_class": "Corticosteroid (systemic)",
+      "common_dose": "5mg–60mg",
+      "frequency": "Once daily in the morning with food",
+      "food_instructions": "Take with food or milk to protect stomach. Do NOT stop suddenly after long courses.",
+      "side_effects": ["increased appetite", "weight gain", "mood changes", "elevated blood sugar", "insomnia", "stomach irritation"],
+      "red_flag_symptoms": ["signs of infection such as fever or chills", "severe stomach pain", "vision changes", "sudden extreme weakness"],
+      "translations": {
+        "en": "Take with food in the MORNING. Do NOT stop suddenly — taper as directed. Monitor blood sugar if diabetic.",
+        "ms": "Makan bersama makanan pada WAKTU PAGI. JANGAN berhenti secara tiba-tiba. Pantau gula darah jika pesakit diabetes.",
+        "ta": "காலையில் உணவுடன் சாப்பிடவும். திடீரென நிறுத்தாதீர்கள். நீரிழிவு நோயாளிகள் இரத்த சர்க்கரையை கண்காணிக்கவும்.",
+        "zh": "早上随餐服用。不可突然停药，需逐渐减量。糖尿病患者需监测血糖。"
+      }
+    }
+  ]
+}

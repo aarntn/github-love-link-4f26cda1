@@ -1,0 +1,102 @@
+{
+  "phq2_threshold": 3,
+  "phq9_bands": [
+    {"label": "minimal",           "min": 0,  "max": 4},
+    {"label": "mild",              "min": 5,  "max": 9},
+    {"label": "moderate",          "min": 10, "max": 14},
+    {"label": "moderately_severe", "min": 15, "max": 19},
+    {"label": "severe",            "min": 20, "max": 27}
+  ],
+  "questions": [
+    {
+      "id": "phq_q1",
+      "answer_type": "likert_0_3",
+      "crisis_if_nonzero": false,
+      "question_en": "Over the past 2 weeks, how often have you felt little interest or pleasure in doing things?",
+      "question_ms": "Dalam 2 minggu lepas, berapa kerap anda berasa kurang minat atau keseronokan dalam melakukan sesuatu?",
+      "question_ta": "",
+      "question_bn": "",
+      "question_zh": "在过去两周内，您多少时候做事时感到没有兴趣或乐趣？"
+    },
+    {
+      "id": "phq_q2",
+      "answer_type": "likert_0_3",
+      "crisis_if_nonzero": false,
+      "question_en": "Over the past 2 weeks, how often have you felt down, depressed, or hopeless?",
+      "question_ms": "Berapa kerap anda berasa murung, tertekan, atau putus asa?",
+      "question_ta": "",
+      "question_bn": "",
+      "question_zh": "您多少时候感到情绪低落、沮丧或绝望？"
+    },
+    {
+      "id": "phq_q3",
+      "answer_type": "likert_0_3",
+      "crisis_if_nonzero": false,
+      "question_en": "How often have you had trouble falling or staying asleep, or sleeping too much?",
+      "question_ms": "Berapa kerap anda sukar tidur, sukar tidur lena, atau tidur terlalu lama?",
+      "question_ta": "",
+      "question_bn": "",
+      "question_zh": "您多少时候难以入睡、保持睡眠，或睡得太多？"
+    },
+    {
+      "id": "phq_q4",
+      "answer_type": "likert_0_3",
+      "crisis_if_nonzero": false,
+      "question_en": "How often have you felt tired or had little energy?",
+      "question_ms": "Berapa kerap anda berasa penat atau kurang tenaga?",
+      "question_ta": "",
+      "question_bn": "",
+      "question_zh": "您多少时候感到疲倦或精力不足？"
+    },
+    {
+      "id": "phq_q5",
+      "answer_type": "likert_0_3",
+      "crisis_if_nonzero": false,
+      "question_en": "How often have you had poor appetite or been overeating?",
+      "question_ms": "Berapa kerap anda kurang selera makan atau makan berlebihan?",
+      "question_ta": "",
+      "question_bn": "",
+      "question_zh": "您多少时候食欲不振或暴饮暴食？"
+    },
+    {
+      "id": "phq_q6",
+      "answer_type": "likert_0_3",
+      "crisis_if_nonzero": false,
+      "question_en": "How often have you felt bad about yourself — or that you are a failure or have let yourself or your family down?",
+      "question_ms": "Berapa kerap anda berasa tidak baik tentang diri sendiri — atau rasa gagal atau mengecewakan diri sendiri dan keluarga?",
+      "question_ta": "",
+      "question_bn": "",
+      "question_zh": "您多少时候对自己感到不好——觉得自己是个失败者，或让自己和家人失望？"
+    },
+    {
+      "id": "phq_q7",
+      "answer_type": "likert_0_3",
+      "crisis_if_nonzero": false,
+      "question_en": "How often have you had trouble concentrating on things, such as reading or watching television?",
+      "question_ms": "Berapa kerap anda sukar menumpukan perhatian pada sesuatu, seperti membaca atau menonton televisyen?",
+      "question_ta": "",
+      "question_bn": "",
+      "question_zh": "您多少时候难以集中注意力，比如阅读报纸或看电视？"
+    },
+    {
+      "id": "phq_q8",
+      "answer_type": "likert_0_3",
+      "crisis_if_nonzero": false,
+      "question_en": "How often have you been moving or speaking so slowly that other people could have noticed? Or been so fidgety or restless that you moved around a lot more than usual?",
+      "question_ms": "Berapa kerap anda bergerak atau bercakap begitu perlahan sehingga orang lain mungkin perasan? Atau sebaliknya, begitu gelisah sehingga anda bergerak lebih banyak daripada biasa?",
+      "question_ta": "",
+      "question_bn": "",
+      "question_zh": "您多少时候动作或说话缓慢到让别人注意到？或相反，太坐立不安，移动比平时多得多？"
+    },
+    {
+      "id": "phq_q9",
+      "answer_type": "likert_0_3",
+      "crisis_if_nonzero": true,
+      "question_en": "How often have you had thoughts that you would be better off dead, or of hurting yourself in some way?",
+      "question_ms": "Berapa kerap anda terfikir bahawa anda lebih baik mati, atau mencederakan diri sendiri dengan cara tertentu?",
+      "question_ta": "",
+      "question_bn": "",
+      "question_zh": "您多少时候有想死的念头，或想以某种方式伤害自己？"
+    }
+  ]
+}

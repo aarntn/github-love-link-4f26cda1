@@ -20,6 +20,14 @@ dist-ssr
 .wrangler/
 .dev.vars
 
+# Python backend
+jagakl/backend/__pycache__/
+jagakl/backend/routers/__pycache__/
+jagakl/backend/services/__pycache__/
+jagakl/backend/.pytest_cache/
+jagakl/backend/.env
+*.pyc
+
 # Editor directories and files
 .vscode/*
 !.vscode/extensions.json

@@ -1,0 +1,253 @@
+{
+  "clinics": [
+    {
+      "id": "msf-kl",
+      "name": "MSF Clinic Kuala Lumpur",
+      "org": "Médecins Sans Frontières (MSF)",
+      "type": "ngo_clinic",
+      "anonymous_safe": true,
+      "no_ic_required": true,
+      "free": true,
+      "languages": ["en", "ms", "bn", "ta", "so", "my"],
+      "serves": ["refugees", "asylum_seekers", "undocumented_migrants", "stateless"],
+      "specialties": ["primary_care", "tb", "hiv", "mental_health", "pediatrics", "maternal_health", "refugees"],
+      "address": "Level 2, Wisma Sime Darby, Jalan Raja Laut, 50350 Kuala Lumpur",
+      "postcode": "50350",
+      "state": "Kuala Lumpur",
+      "lat": 3.1534,
+      "lng": 101.6959,
+      "phone": "+60321731960",
+      "whatsapp": null,
+      "walk_in": true,
+      "hours": {
+        "mon": "08:30–17:00",
+        "tue": "08:30–17:00",
+        "wed": "08:30–17:00",
+        "thu": "08:30–17:00",
+        "fri": "08:30–17:00",
+        "sat": "Closed",
+        "sun": "Closed"
+      },
+      "referral_message": {
+        "en": "MSF Clinic KL provides FREE medical care — no IC, no registration fee. Walk in Mon–Fri 8:30am. Show this message at reception.",
+        "ms": "Klinik MSF KL menyediakan rawatan perubatan PERCUMA — tiada IC, tiada bayaran pendaftaran. Datang terus Isnin–Jumaat 8:30pg. Tunjukkan mesej ini di kaunter.",
+        "bn": "MSF ক্লিনিক KL বিনামূল্যে চিকিৎসা দেয় — IC লাগবে না। সোম–শুক্র সকাল ৮:৩০ এ আসুন।",
+        "ta": "MSF கிளினிக் KL இலவச மருத்துவ சேவை வழங்குகிறது — IC தேவையில்லை. திங்கள்–வெள்ளி காலை 8:30 க்கு வாருங்கள்."
+      }
+    },
+    {
+      "id": "mercy-chow-kit",
+      "name": "MERCY Malaysia Klinik Komuniti Chow Kit",
+      "org": "MERCY Malaysia",
+      "type": "ngo_clinic",
+      "anonymous_safe": true,
+      "no_ic_required": true,
+      "free": true,
+      "languages": ["en", "ms", "bn", "ta", "id"],
+      "serves": ["migrants", "refugees", "b40", "homeless"],
+      "specialties": ["primary_care", "dengue", "tb", "maternal_health", "pediatrics", "general"],
+      "address": "145-A Jalan Raja Laut, Chow Kit, 50350 Kuala Lumpur",
+      "postcode": "50350",
+      "state": "Kuala Lumpur",
+      "lat": 3.1589,
+      "lng": 101.6972,
+      "phone": "+60326925860",
+      "whatsapp": "+60126925860",
+      "walk_in": true,
+      "hours": {
+        "mon": "08:00–17:00",
+        "tue": "08:00–17:00",
+        "wed": "08:00–17:00",
+        "thu": "08:00–17:00",
+        "fri": "08:00–17:00",
+        "sat": "08:00–13:00",
+        "sun": "Closed"
+      },
+      "referral_message": {
+        "en": "MERCY Malaysia Chow Kit: FREE primary care for all. No IC needed. Walk in Mon–Sat. WhatsApp first if possible.",
+        "ms": "MERCY Malaysia Chow Kit: Rawatan PERCUMA untuk semua. Tiada IC diperlukan. Datang terus Isnin–Sabtu.",
+        "bn": "MERCY Malaysia Chow Kit: সবার জন্য বিনামূল্যে প্রাথমিক স্বাস্থ্যসেবা। IC লাগবে না।",
+        "ta": "MERCY Malaysia Chow Kit: அனைவருக்கும் இலவச சேவை. IC தேவையில்லை."
+      }
+    },
+    {
+      "id": "tzu-chi-pudu",
+      "name": "Tzu Chi Free Clinic Pudu",
+      "org": "Buddhist Tzu Chi Merit Society Malaysia",
+      "type": "ngo_clinic",
+      "anonymous_safe": true,
+      "no_ic_required": true,
+      "free": true,
+      "languages": ["en", "ms", "zh", "ta"],
+      "serves": ["b40", "elderly", "migrants", "stateless"],
+      "specialties": ["primary_care", "ncd", "diabetes", "hypertension", "general", "elderly_care"],
+      "address": "No. 1, Jalan 1/108C, Taman Sungai Besi, 57100 Kuala Lumpur",
+      "postcode": "57100",
+      "state": "Kuala Lumpur",
+      "lat": 3.0892,
+      "lng": 101.7101,
+      "phone": "+60321484892",
+      "whatsapp": null,
+      "walk_in": true,
+      "hours": {
+        "mon": "Closed",
+        "tue": "08:30–12:30",
+        "wed": "Closed",
+        "thu": "08:30–12:30",
+        "fri": "Closed",
+        "sat": "08:30–12:30",
+        "sun": "Closed"
+      },
+      "referral_message": {
+        "en": "Tzu Chi Free Clinic Pudu: FREE care Tue/Thu/Sat 8:30am–12:30pm. No IC required. Bring this message.",
+        "ms": "Klinik Percuma Tzu Chi Pudu: Rawatan PERCUMA Selasa/Khamis/Sabtu 8:30pg–12:30tgh. Tiada IC diperlukan.",
+        "zh": "慈濟義診中心（蒲種）：週二/四/六免費診療 08:30–12:30。無需身份證。",
+        "ta": "தஸி சி இலவச கிளினிக் புது: செவ்வாய்/வியாழன்/சனி 8:30–12:30 இலவச சேவை."
+      }
+    },
+    {
+      "id": "tzu-chi-sentul",
+      "name": "Tzu Chi Free Clinic Sentul",
+      "org": "Buddhist Tzu Chi Merit Society Malaysia",
+      "type": "ngo_clinic",
+      "anonymous_safe": true,
+      "no_ic_required": true,
+      "free": true,
+      "languages": ["en", "ms", "zh", "ta"],
+      "serves": ["b40", "elderly", "migrants"],
+      "specialties": ["primary_care", "ncd", "diabetes", "hypertension", "general"],
+      "address": "Jalan Sentul Pasar, Sentul, 51000 Kuala Lumpur",
+      "postcode": "51000",
+      "state": "Kuala Lumpur",
+      "lat": 3.1821,
+      "lng": 101.6864,
+      "phone": "+60362502693",
+      "whatsapp": null,
+      "walk_in": true,
+      "hours": {
+        "mon": "Closed",
+        "tue": "08:30–12:30",
+        "wed": "Closed",
+        "thu": "08:30–12:30",
+        "fri": "Closed",
+        "sat": "08:30–12:30",
+        "sun": "Closed"
+      },
+      "referral_message": {
+        "en": "Tzu Chi Free Clinic Sentul: FREE care Tue/Thu/Sat 8:30am. No IC needed. Show this message.",
+        "ms": "Klinik Percuma Tzu Chi Sentul: Rawatan PERCUMA Selasa/Khamis/Sabtu 8:30pg. Tiada IC.",
+        "zh": "慈濟義診中心（仙特魯）：週二/四/六 08:30 免費診療。",
+        "ta": "தஸி சி கிளினிக் சென்டுல்: இலவச சேவை."
+      }
+    },
+    {
+      "id": "pt-foundation",
+      "name": "PT Foundation Community Health Centre",
+      "org": "PT Foundation",
+      "type": "ngo_clinic",
+      "anonymous_safe": true,
+      "no_ic_required": true,
+      "free": true,
+      "languages": ["en", "ms", "zh", "ta", "bn"],
+      "serves": ["msm", "sex_workers", "drug_users", "migrants", "transgender"],
+      "specialties": ["hiv", "sti", "harm_reduction", "tb", "mental_health", "primary_care"],
+      "address": "12 Jalan Bahagia, Off Jalan Ipoh, Sentul, 51200 Kuala Lumpur",
+      "postcode": "51200",
+      "state": "Kuala Lumpur",
+      "lat": 3.1872,
+      "lng": 101.6892,
+      "phone": "+60362501722",
+      "whatsapp": "+60162501722",
+      "walk_in": true,
+      "hours": {
+        "mon": "09:00–17:00",
+        "tue": "09:00–17:00",
+        "wed": "09:00–17:00",
+        "thu": "09:00–17:00",
+        "fri": "09:00–17:00",
+        "sat": "09:00–13:00",
+        "sun": "Closed"
+      },
+      "referral_message": {
+        "en": "PT Foundation: FREE HIV, STI, TB, and harm reduction services. No IC, fully confidential. Mon–Sat.",
+        "ms": "PT Foundation: Perkhidmatan HIV, STI, TB PERCUMA. Tiada IC, sulit sepenuhnya. Isnin–Sabtu.",
+        "bn": "PT Foundation: বিনামূল্যে HIV, STI, TB সেবা। IC লাগবে না, সম্পূর্ণ গোপনীয়।",
+        "ta": "PT Foundation: இலவச HIV, STI, TB சேவைகள். IC தேவையில்லை, முற்றிலும் ரகசியமானது."
+      }
+    },
+    {
+      "id": "acts-refugee",
+      "name": "ACTS Refugee Centre",
+      "org": "Anglican Church of the Transfiguration",
+      "type": "community_centre",
+      "anonymous_safe": true,
+      "no_ic_required": true,
+      "free": true,
+      "languages": ["en", "ms", "so", "my", "si", "ta"],
+      "serves": ["refugees", "asylum_seekers", "undocumented_migrants"],
+      "specialties": ["primary_care", "mental_health", "trauma", "refugees", "social_support"],
+      "address": "7 Jalan Semantan, Damansara Heights, 50490 Kuala Lumpur",
+      "postcode": "50490",
+      "state": "Kuala Lumpur",
+      "lat": 3.1571,
+      "lng": 101.6636,
+      "phone": "+60320951800",
+      "whatsapp": "+60162095180",
+      "walk_in": false,
+      "hours": {
+        "mon": "09:00–17:00",
+        "tue": "09:00–17:00",
+        "wed": "09:00–17:00",
+        "thu": "09:00–17:00",
+        "fri": "09:00–17:00",
+        "sat": "Closed",
+        "sun": "Closed"
+      },
+      "referral_message": {
+        "en": "ACTS Refugee Centre: Free healthcare navigation for refugees/asylum seekers. Call ahead — no walk-ins. Fully confidential, no MOH reporting.",
+        "ms": "Pusat Pelarian ACTS: Navigasi penjagaan kesihatan PERCUMA untuk pelarian. Hubungi terlebih dahulu. Sulit sepenuhnya.",
+        "so": "ACTS: Adeegyada caafimaadka bilaashka ah ee qaxootiga. Wac marka hore."
+      }
+    },
+    {
+      "id": "frham-kl",
+      "name": "FRHAM Sexual and Reproductive Health Clinic KL",
+      "org": "Federation of Reproductive Health Associations, Malaysia (FRHAM)",
+      "type": "ngo_clinic",
+      "anonymous_safe": true,
+      "no_ic_required": true,
+      "free": false,
+      "languages": ["en", "ms", "zh", "ta"],
+      "serves": ["women", "migrants", "refugees", "b40", "youth"],
+      "specialties": ["reproductive_health", "maternal_health", "family_planning", "breast_screening", "sti", "cervical_screening", "womens_health"],
+      "address": "47 Jalan Templer, Petaling Jaya, 46000 Selangor (serves KL)",
+      "postcode": "46000",
+      "state": "Selangor",
+      "lat": 3.1073,
+      "lng": 101.6390,
+      "phone": "+60379580008",
+      "whatsapp": "+60197580008",
+      "walk_in": true,
+      "hours": {
+        "mon": "09:00–17:00",
+        "tue": "09:00–17:00",
+        "wed": "09:00–17:00",
+        "thu": "09:00–17:00",
+        "fri": "09:00–17:00",
+        "sat": "09:00–13:00",
+        "sun": "Closed"
+      },
+      "referral_message": {
+        "en": "FRHAM KL: Affordable sexual & reproductive health care for women. Breast exam, Pap smear, family planning. No IC barrier.",
+        "ms": "FRHAM KL: Penjagaan kesihatan reproduktif untuk wanita. Pemeriksaan payu dara, Pap smear. Tiada halangan IC.",
+        "ta": "FRHAM KL: பெண்களுக்கான இனப்பெருக்க சுகாதார சேவைகள். IC தேவையில்லை."
+      }
+    }
+  ],
+  "emergency": {
+    "ambulance": "999",
+    "befrienders_kl": "03-7627 2929",
+    "talian_kasih": "15999",
+    "unhcr_malaysia": "+60376529000"
+  }
+}

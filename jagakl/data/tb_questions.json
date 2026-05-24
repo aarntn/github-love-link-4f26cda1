@@ -1,0 +1,83 @@
+{
+  "scoring_threshold": 3,
+  "high_risk_action": "route_to_ngo_tb_clinic",
+  "questions": [
+    {
+      "id": "tb_q1",
+      "question_en": "Have you had a cough lasting more than 2 weeks?",
+      "question_ms": "Adakah anda mengalami batuk lebih daripada 2 minggu?",
+      "question_ta": "நீங்கள் 2 வாரங்களுக்கு மேல் இருமல் உள்ளீர்களா?",
+      "question_bn": "আপনার কি ২ সপ্তাহের বেশি কাশি হচ্ছে?",
+      "question_zh": "您是否持续咳嗽超过2周？",
+      "answer_type": "yes_no",
+      "weight": 3,
+      "positive_answer": "yes"
+    },
+    {
+      "id": "tb_q2",
+      "question_en": "Have you coughed up blood or bloody mucus?",
+      "question_ms": "Adakah anda terbatuk darah atau kahak berdarah?",
+      "question_ta": "நீங்கள் இரத்தம் அல்லது இரத்தம் கலந்த சளி இருமியிருக்கிறீர்களா?",
+      "question_bn": "আপনি কি রক্ত বা রক্তমিশ্রিত কফ কেশেছেন?",
+      "question_zh": "您是否咳出血或含血的痰？",
+      "answer_type": "yes_no",
+      "weight": 4,
+      "positive_answer": "yes"
+    },
+    {
+      "id": "tb_q3",
+      "question_en": "Have you had unexplained weight loss recently?",
+      "question_ms": "Adakah anda mengalami penurunan berat badan yang tidak dapat dijelaskan baru-baru ini?",
+      "question_ta": "சமீபத்தில் விளக்கமற்ற எடை குறைப்பு உள்ளதா?",
+      "question_bn": "সম্প্রতি কি অকারণে ওজন কমেছে?",
+      "question_zh": "您最近是否有不明原因的体重下降？",
+      "answer_type": "yes_no",
+      "weight": 2,
+      "positive_answer": "yes"
+    },
+    {
+      "id": "tb_q4",
+      "question_en": "Do you sweat a lot at night, even when it is not hot?",
+      "question_ms": "Adakah anda berpeluh banyak pada waktu malam, walaupun tidak panas?",
+      "question_ta": "இரவில் வெப்பமில்லாமலும் அதிகமாக வியர்க்கிறீர்களா?",
+      "question_bn": "রাতে কি গরম না থাকলেও অনেক ঘাম হয়?",
+      "question_zh": "您晚上是否大量出汗，即使天气不热？",
+      "answer_type": "yes_no",
+      "weight": 2,
+      "positive_answer": "yes"
+    },
+    {
+      "id": "tb_q5",
+      "question_en": "Have you had a fever lasting more than 2 weeks?",
+      "question_ms": "Adakah anda mengalami demam lebih daripada 2 minggu?",
+      "question_ta": "2 வாரங்களுக்கும் மேலாக காய்ச்சல் இருக்கிறதா?",
+      "question_bn": "আপনার কি ২ সপ্তাহের বেশি জ্বর হচ্ছে?",
+      "question_zh": "您是否持续发烧超过2周？",
+      "answer_type": "yes_no",
+      "weight": 2,
+      "positive_answer": "yes"
+    },
+    {
+      "id": "tb_q6",
+      "question_en": "Do you have persistent chest pain or difficulty breathing?",
+      "question_ms": "Adakah anda mengalami sakit dada yang berterusan atau kesukaran bernafas?",
+      "question_ta": "தொடர்ந்து மார்பு வலி அல்லது சுவாசிப்பதில் சிரமம் உள்ளதா?",
+      "question_bn": "কি ক্রমাগত বুকে ব্যথা বা শ্বাস নিতে কষ্ট হচ্ছে?",
+      "question_zh": "您是否持续有胸痛或呼吸困难？",
+      "answer_type": "yes_no",
+      "weight": 2,
+      "positive_answer": "yes"
+    },
+    {
+      "id": "tb_q7",
+      "question_en": "Have you been in close contact with someone known to have TB in the past year?",
+      "question_ms": "Adakah anda pernah berhubung rapat dengan seseorang yang diketahui menghidap TB dalam setahun lepas?",
+      "question_ta": "கடந்த ஆண்டில் TB இருப்பதாக அறியப்பட்ட யாரோடாவது நெருங்கிய தொடர்பு இருந்ததா?",
+      "question_bn": "গত বছরে কি TB আছে বলে জানা কারও সাথে ঘনিষ্ঠ যোগাযোগ হয়েছে?",
+      "question_zh": "过去一年内，您是否与已知肺结核患者有过密切接触？",
+      "answer_type": "yes_no",
+      "weight": 3,
+      "positive_answer": "yes"
+    }
+  ]
+}
