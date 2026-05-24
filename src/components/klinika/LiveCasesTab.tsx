@@ -6,9 +6,10 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 
 interface Props {
   cases: TriageCase[];
+  updateStatus?: (id: string, status: import("@/lib/klinika").Status) => Promise<void>;
 }
 
-export function LiveCasesTab({ cases }: Props) {
+export function LiveCasesTab({ cases, updateStatus }: Props) {
   const [urgency, setUrgency] = useState<string>("all");
   const [flow, setFlow] = useState<string>("all");
   const [selected, setSelected] = useState<TriageCase | null>(null);
@@ -77,6 +78,7 @@ export function LiveCasesTab({ cases }: Props) {
         case={selected}
         open={!!selected}
         onOpenChange={(o) => !o && setSelected(null)}
+        updateStatus={updateStatus}
       />
     </div>
   );
