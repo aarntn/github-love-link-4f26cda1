@@ -8,7 +8,7 @@ export type TabKey = "live" | "clinician" | "impact";
 
 const NAV = [
   { key: "clinician" as const, label: "Clinician View", icon: Stethoscope },
-  { key: "live" as const, label: "Live Cases", icon: Activity },
+  { key: "live" as const, label: "Triage Feed", icon: Activity },
   { key: "impact" as const, label: "Impact", icon: BarChart3 },
 ];
 
