@@ -7,9 +7,9 @@ import { Button } from "@/components/ui/button";
 export type TabKey = "live" | "clinician" | "impact";
 
 const NAV = [
-  { key: "impact" as const, label: "Impact", icon: BarChart3 },
-  { key: "live" as const, label: "Live Cases", icon: Activity },
   { key: "clinician" as const, label: "Clinician View", icon: Stethoscope },
+  { key: "live" as const, label: "Live Cases", icon: Activity },
+  { key: "impact" as const, label: "Impact", icon: BarChart3 },
 ];
 
 function NavList({

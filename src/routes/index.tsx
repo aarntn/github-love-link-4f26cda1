@@ -12,7 +12,7 @@ export const Route = createFileRoute("/")({
 });
 
 function DashboardPage() {
-  const [tab, setTab] = useState<TabKey>("live");
+  const [tab, setTab] = useState<TabKey>("clinician");
   const { cases, isLoading, error, updateStatus } = useTriageCases();
 
   const pendingCount = cases.filter(
