@@ -29,11 +29,12 @@ function NavList({
             key={item.key}
             onClick={() => onChange(item.key)}
             className={cn(
-              "flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-colors text-left",
+              "flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm transition-colors text-left",
               isActive
-                ? "bg-primary text-primary-foreground shadow-sm"
-                : "text-muted-foreground hover:bg-muted hover:text-foreground",
+                ? "bg-muted text-foreground font-semibold"
+                : "text-muted-foreground font-medium hover:bg-muted/60 hover:text-foreground",
             )}
+
           >
             <Icon className="h-4.5 w-4.5 shrink-0" strokeWidth={2} />
             <span>{item.label}</span>
