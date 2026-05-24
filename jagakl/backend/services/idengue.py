@@ -46,42 +46,52 @@ async def fetch_hotspot_status(postcode: str) -> dict:
 
 
 async def _fetch_from_api(postcode: str) -> dict:
-    # Primary: data.gov.my CKAN API for dengue cases
-    try:
-        async with httpx.AsyncClient(timeout=8.0) as client:
-            resp = await client.get(
-                "https://api.data.gov.my/data-catalogue",
-                params={"id": "dengue_cases_malaysia", "limit": 500},
-            )
-            if resp.status_code == 200:
-                payload = resp.json()
-                rows = payload if isinstance(payload, list) else payload.get("data", [])
-                if rows:
-                    return _parse_rows(rows, postcode)
-    except Exception:
-        pass
+    import asyncio
 
-    # Fallback: iDengue MYSA API
-    try:
-        async with httpx.AsyncClient(timeout=8.0) as client:
-            resp = await client.get(
-                "https://idengue.mysa.gov.my/idengue/api/getHotspot",
-                params={"postcode": postcode},
-            )
-            if resp.status_code == 200:
-                data = resp.json()
-                if isinstance(data, list) and data:
-                    item = data[0]
-                    return {
-                        "postcode": postcode,
-                        "is_hotspot": True,
-                        "active_cases": item.get("case_count"),
-                        "locality_name": item.get("locality") or item.get("kawasan"),
-                        "last_updated": item.get("updated_date"),
-                        "note": None,
-                    }
-    except Exception:
-        pass
+    async def _try_govmy() -> dict | None:
+        try:
+            async with httpx.AsyncClient(timeout=5.0) as client:
+                resp = await client.get(
+                    "https://api.data.gov.my/data-catalogue",
+                    params={"id": "dengue_cases_malaysia", "limit": 500},
+                )
+                if resp.status_code == 200:
+                    payload = resp.json()
+                    rows = payload if isinstance(payload, list) else payload.get("data", [])
+                    if rows:
+                        return _parse_rows(rows, postcode)
+        except Exception:
+            pass
+        return None
+
+    async def _try_idengue() -> dict | None:
+        try:
+            async with httpx.AsyncClient(timeout=5.0) as client:
+                resp = await client.get(
+                    "https://idengue.mysa.gov.my/idengue/api/getHotspot",
+                    params={"postcode": postcode},
+                )
+                if resp.status_code == 200:
+                    data = resp.json()
+                    if isinstance(data, list) and data:
+                        item = data[0]
+                        return {
+                            "postcode": postcode,
+                            "is_hotspot": True,
+                            "active_cases": item.get("case_count"),
+                            "locality_name": item.get("locality") or item.get("kawasan"),
+                            "last_updated": item.get("updated_date"),
+                            "note": None,
+                        }
+        except Exception:
+            pass
+        return None
+
+    # Run both APIs in parallel — take whichever responds first
+    results = await asyncio.gather(_try_govmy(), _try_idengue(), return_exceptions=True)
+    for r in results:
+        if isinstance(r, dict):
+            return r
 
     return _fallback(postcode)
 
