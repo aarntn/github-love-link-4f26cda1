@@ -80,9 +80,6 @@ export function AppSidebar({ active, onChange }: Props) {
       <aside className="hidden md:flex fixed inset-y-0 left-0 z-30 w-[220px] flex-col bg-sidebar border-r border-border">
         <Brand />
         <NavList active={active} onChange={onChange} />
-        <div className="mt-auto px-6 py-4 text-[11px] text-muted-foreground border-t">
-          Kuala Lumpur · v1
-        </div>
       </aside>
 
       {/* Mobile header */}
