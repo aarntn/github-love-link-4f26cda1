@@ -56,7 +56,7 @@ function BrandIcon({ className }: { className?: string }) {
 
 function Brand() {
   return (
-    <div className="px-6 py-6 flex items-center gap-2">
+    <div className="px-6 py-6 flex items-center gap-[4px]">
       <BrandIcon className="h-5 w-5 text-primary" />
       <div>
         <p className="font-semibold text-foreground tracking-tight leading-none">Klinika</p>
