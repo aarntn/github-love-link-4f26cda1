@@ -27,15 +27,6 @@ export function LiveCasesTab({ cases, updateStatus, rerouteCase }: Props) {
   const [status, setStatus] = useState<string>("all");
   const [selected, setSelected] = useState<TriageCase | null>(null);
 
-  const counts = useMemo(
-    () => ({
-      new: cases.filter((c) => c.status === "new").length,
-      escalated: cases.filter((c) => c.status === "escalated").length,
-      reviewed: cases.filter((c) => c.status === "reviewed").length,
-    }),
-    [cases],
-  );
-
   const filtered = useMemo(() => {
     return cases
       .filter((c) => (status === "all" ? true : c.status === status))
@@ -51,12 +42,6 @@ export function LiveCasesTab({ cases, updateStatus, rerouteCase }: Props) {
         return new Date(b.created_at).getTime() - new Date(a.created_at).getTime();
       });
   }, [cases, status, urgency, flow]);
-
-  const countItems: { key: "new" | "escalated" | "reviewed" }[] = [
-    { key: "new" },
-    { key: "escalated" },
-    { key: "reviewed" },
-  ];
 
   return (
     <div className="space-y-6">
