@@ -7,7 +7,6 @@ import {
   HeadContent,
   Scripts,
 } from "@tanstack/react-router";
-import { Toaster } from "@/components/ui/sonner";
 
 import appCss from "../styles.css?url";
 
@@ -73,17 +72,24 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "Klinika — Clinician Triage Console" },
-      { name: "description", content: "Real-time AI triage dashboard for healthcare workers in Kuala Lumpur." },
-      { property: "og:title", content: "Klinika — Clinician Triage Console" },
-      { property: "og:description", content: "Real-time AI triage dashboard for healthcare workers in Kuala Lumpur." },
+      { title: "Klinika — Clinician Copilot" },
+      { name: "description", content: "Connect GitHub repositories to Loveable for streamlined project management." },
+      { name: "author", content: "JagaKL" },
+      { property: "og:title", content: "Klinika — Clinician Copilot" },
+      { property: "og:description", content: "Connect GitHub repositories to Loveable for streamlined project management." },
       { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary" },
+      { name: "twitter:site", content: "@Lovable" },
+      { name: "twitter:title", content: "Klinika — Clinician Copilot" },
+      { name: "twitter:description", content: "Connect GitHub repositories to Loveable for streamlined project management." },
+      { property: "og:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/876bc34a-22da-4ebb-bafe-053db87046f2/id-preview-3999d406--2a3e2155-715c-48cb-a073-d799f81f16f5.lovable.app-1779607106457.png" },
+      { name: "twitter:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/876bc34a-22da-4ebb-bafe-053db87046f2/id-preview-3999d406--2a3e2155-715c-48cb-a073-d799f81f16f5.lovable.app-1779607106457.png" },
     ],
     links: [
-      { rel: "stylesheet", href: appCss },
-      { rel: "preconnect", href: "https://fonts.googleapis.com" },
-      { rel: "preconnect", href: "https://fonts.gstatic.com", crossOrigin: "anonymous" },
-      { rel: "stylesheet", href: "https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&display=swap" },
+      {
+        rel: "stylesheet",
+        href: appCss,
+      },
     ],
   }),
   shellComponent: RootShell,
@@ -112,7 +118,6 @@ function RootComponent() {
   return (
     <QueryClientProvider client={queryClient}>
       <Outlet />
-      <Toaster />
     </QueryClientProvider>
   );
 }
