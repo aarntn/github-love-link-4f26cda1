@@ -13,7 +13,7 @@ export const Route = createFileRoute("/")({
 
 function DashboardPage() {
   const [tab, setTab] = useState<TabKey>("clinician");
-  const { cases, isLoading, error, updateStatus } = useTriageCases();
+  const { cases, isLoading, error, updateStatus, rerouteCase } = useTriageCases();
 
   const pendingCount = cases.filter(
     (c) => c.status === "new" || c.status === "escalated",
@@ -34,9 +34,11 @@ function DashboardPage() {
           </div>
         ) : (
           <>
-            {tab === "live" && <LiveCasesTab cases={cases} updateStatus={updateStatus} />}
+            {tab === "live" && (
+              <LiveCasesTab cases={cases} updateStatus={updateStatus} rerouteCase={rerouteCase} />
+            )}
             {tab === "clinician" && (
-              <ClinicianTab cases={cases} updateStatus={updateStatus} />
+              <ClinicianTab cases={cases} updateStatus={updateStatus} rerouteCase={rerouteCase} />
             )}
             {tab === "impact" && <ImpactTab cases={cases} />}
           </>
