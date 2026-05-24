@@ -52,7 +52,6 @@ export function LiveCasesTab({ cases, updateStatus, rerouteCase }: Props) {
         </p>
       </header>
 
-
       <div className="flex flex-wrap gap-3">
         <Select value={status} onValueChange={setStatus}>
           <SelectTrigger className="w-[180px]">
