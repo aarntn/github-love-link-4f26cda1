@@ -69,40 +69,6 @@ export function LiveCasesTab({ cases, updateStatus, rerouteCase }: Props) {
         </p>
       </header>
 
-      <div className="flex flex-wrap gap-2">
-        {countItems.map(({ key }) => {
-          const meta = STATUS_META[key];
-          const active = status === key;
-          return (
-            <button
-              key={key}
-              onClick={() => setStatus(active ? "all" : key)}
-              className={cn(
-                "inline-flex items-center gap-2 rounded-full border px-3 py-1.5 text-sm transition-all",
-                active
-                  ? "shadow-sm"
-                  : "bg-card hover:bg-muted/40 border-border",
-              )}
-              style={
-                active
-                  ? {
-                      backgroundColor: `${meta.bg}14`,
-                      borderColor: meta.bg,
-                      color: meta.bg,
-                    }
-                  : undefined
-              }
-            >
-              <span
-                className="h-2 w-2 rounded-full"
-                style={{ backgroundColor: meta.bg }}
-              />
-              <span className="font-medium">{meta.label}</span>
-              <span className="font-semibold tabular-nums">{counts[key]}</span>
-            </button>
-          );
-        })}
-      </div>
 
       <div className="flex flex-wrap gap-3">
         <Select value={status} onValueChange={setStatus}>
