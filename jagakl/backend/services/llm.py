@@ -1,9 +1,9 @@
 import os
-import anthropic
+from groq import AsyncGroq
 
-_client: anthropic.AsyncAnthropic | None = None
+_client: AsyncGroq | None = None
 
-_MODEL = os.getenv("ANTHROPIC_MODEL", "claude-haiku-4-5-20251001")
+_MODEL = os.getenv("GROQ_MODEL", "llama-3.3-70b-versatile")
 
 _FALLBACK = (
     "I'm not sure I understand. Could you describe your symptoms?\n\n"
@@ -12,26 +12,28 @@ _FALLBACK = (
 )
 
 
-def _get_client() -> anthropic.AsyncAnthropic:
+def _get_client() -> AsyncGroq:
     global _client
     if _client is None:
-        _client = anthropic.AsyncAnthropic(
-            api_key=os.getenv("ANTHROPIC_API_KEY", ""),
-        )
+        _client = AsyncGroq(api_key=os.getenv("GROQ_API_KEY", ""))
     return _client
 
 
 async def chat(messages: list[dict], system_prompt: str = "") -> str:
-    if not os.getenv("ANTHROPIC_API_KEY"):
+    if not os.getenv("GROQ_API_KEY"):
         return _FALLBACK
 
     try:
-        resp = await _get_client().messages.create(
+        msgs = []
+        if system_prompt:
+            msgs.append({"role": "system", "content": system_prompt})
+        msgs.extend(messages)
+
+        resp = await _get_client().chat.completions.create(
             model=_MODEL,
             max_tokens=400,
-            system=system_prompt or anthropic.NOT_GIVEN,
-            messages=messages,
+            messages=msgs,
         )
-        return resp.content[0].text
+        return resp.choices[0].message.content or _FALLBACK
     except Exception:
         return _FALLBACK

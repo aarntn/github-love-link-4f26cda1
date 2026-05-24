@@ -4,6 +4,6 @@ python-dotenv
 twilio
 httpx
 python-multipart
-anthropic
+groq
 pytest
 pytest-asyncio
