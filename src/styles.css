@@ -99,5 +99,6 @@
     background-color: var(--color-background);
     color: var(--color-foreground);
     font-family: "Inter Tight", ui-sans-serif, system-ui, sans-serif;
+    letter-spacing: 0.2px;
   }
 }
