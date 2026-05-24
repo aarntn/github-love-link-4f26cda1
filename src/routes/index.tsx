@@ -37,6 +37,7 @@ function LandingPage() {
       <Header />
       <main className="pb-32 md:pb-12">
         <Hero />
+        <WhyKlinika />
         <HowItWorks />
         <WhatsappCTA />
         <AnonymousCallout />
