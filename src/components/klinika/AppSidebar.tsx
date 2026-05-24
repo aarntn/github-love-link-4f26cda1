@@ -78,9 +78,10 @@ function Brand() {
 interface Props {
   active: TabKey;
   onChange: (k: TabKey) => void;
+  pendingCount?: number;
 }
 
-export function AppSidebar({ active, onChange }: Props) {
+export function AppSidebar({ active, onChange, pendingCount = 0 }: Props) {
   const [mobileOpen, setMobileOpen] = useState(false);
 
   const handleMobileChange = (k: TabKey) => {
@@ -93,7 +94,7 @@ export function AppSidebar({ active, onChange }: Props) {
       {/* Desktop sidebar */}
       <aside className="hidden md:flex fixed inset-y-0 left-0 z-30 w-[220px] flex-col bg-sidebar border-r border-border">
         <Brand />
-        <NavList active={active} onChange={onChange} />
+        <NavList active={active} onChange={onChange} pendingCount={pendingCount} />
       </aside>
 
       {/* Mobile header */}
@@ -106,7 +107,7 @@ export function AppSidebar({ active, onChange }: Props) {
           </SheetTrigger>
           <SheetContent side="left" className="p-0 w-[260px]">
             <Brand />
-            <NavList active={active} onChange={handleMobileChange} />
+            <NavList active={active} onChange={handleMobileChange} pendingCount={pendingCount} />
           </SheetContent>
         </Sheet>
         <div className="flex items-center gap-2">
