@@ -37,6 +37,7 @@ function LandingPage() {
       <Header />
       <main className="pb-32 md:pb-12">
         <Hero />
+        <WhyKlinika />
         <HowItWorks />
         <WhatsappCTA />
         <AnonymousCallout />
@@ -90,12 +91,6 @@ function Hero() {
           simptom anda — kami akan pandukan anda ke klinik yang sesuai, tanpa soal siasat.
         </p>
 
-        <div className="mt-8 flex flex-col items-center gap-3 text-sm text-foreground/80">
-          <TrustLine>Tiada IC diperlukan — mod anonymous tersedia</TrustLine>
-          <TrustLine>Tersedia dalam Bahasa Malaysia, English, Tamil &amp; Bangla</TrustLine>
-          <TrustLine>Percuma sepenuhnya</TrustLine>
-        </div>
-
         <div className="mt-10 flex flex-col items-center">
           <WhatsappButton size="lg" />
           <p className="mt-4 text-xs text-muted-foreground">
@@ -107,17 +102,59 @@ function Hero() {
   );
 }
 
-function TrustLine({ children }: { children: React.ReactNode }) {
+function WhyKlinika() {
+  const cards = [
+    {
+      emoji: "🛡️",
+      title: "Tiada IC Diperlukan",
+      body: "Mod anonymous kami tidak simpan nama atau maklumat peribadi. Sesuai untuk pekerja migran dan pelarian.",
+    },
+    {
+      emoji: "🌐",
+      title: "Pelbagai Bahasa",
+      body: "Tersedia dalam Bahasa Malaysia, English, Tamil dan Bangla — taip dalam bahasa anda sendiri.",
+    },
+    {
+      emoji: "❤️",
+      title: "Percuma Sepenuhnya",
+      body: "Tiada caj, tiada langganan. Klinika dibangunkan untuk komuniti yang paling memerlukan.",
+    },
+  ];
+
   return (
-    <div className="flex items-center gap-2">
-      <span
-        className="inline-flex h-5 w-5 items-center justify-center rounded-full shrink-0"
-        style={{ backgroundColor: "rgba(13,158,117,0.12)", color: TEAL }}
-      >
-        <Check className="h-3 w-3" strokeWidth={3} />
-      </span>
-      <span>{children}</span>
-    </div>
+    <section className="px-5 md:px-8 pt-20 md:pt-[80px] pb-10 md:pb-16">
+      <div className="max-w-5xl mx-auto">
+        <div className="text-center mb-8 md:mb-10">
+          <span
+            className="text-[11px] font-semibold uppercase tracking-widest"
+            style={{ color: TEAL }}
+          >
+            KENAPA KLINIKA?
+          </span>
+        </div>
+
+        <div className="grid gap-5 md:grid-cols-3 md:gap-6">
+          {cards.map((card) => (
+            <div
+              key={card.title}
+              className="rounded-2xl p-6 md:p-7 border"
+              style={{
+                backgroundColor: "#F0FAF6",
+                borderColor: "#D1F0E6",
+              }}
+            >
+              <div className="text-4xl mb-3" aria-hidden>
+                {card.emoji}
+              </div>
+              <h3 className="font-semibold text-lg leading-snug">{card.title}</h3>
+              <p className="mt-2 text-sm text-foreground/70 leading-relaxed">
+                {card.body}
+              </p>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
   );
 }
 
