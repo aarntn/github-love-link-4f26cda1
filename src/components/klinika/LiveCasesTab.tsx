@@ -83,6 +83,7 @@ export function LiveCasesTab({ cases, updateStatus, rerouteCase }: Props) {
         open={!!selected}
         onOpenChange={(o) => !o && setSelected(null)}
         updateStatus={updateStatus}
+        rerouteCase={rerouteCase}
       />
     </div>
   );
