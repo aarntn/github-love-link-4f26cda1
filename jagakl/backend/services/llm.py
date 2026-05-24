@@ -4,7 +4,7 @@ from groq import AsyncGroq
 _client: AsyncGroq | None = None
 
 DEFAULT_MODEL = os.getenv("GROQ_MODEL", "llama-3.3-70b-versatile")
-LANGUAGE_MODEL = os.getenv("LANGUAGE_MODEL", "qwen/qwen3-32b")
+LANGUAGE_MODEL = os.getenv("LANGUAGE_MODEL", "llama-3.1-8b-instant")
 
 _FALLBACK = (
     "I'm not sure I understand. Could you describe your symptoms?\n\n"
