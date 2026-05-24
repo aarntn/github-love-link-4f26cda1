@@ -41,7 +41,7 @@ async def whatsapp_webhook(
         history.append({"role": "user", "content": Body})
         update_session(phone, conversation_history=history[-20:])
 
-        reply = await handle_message(phone, Body)
+        reply = await handle_message(phone, Body, channel="whatsapp")
 
         # Store assistant reply so LLM has full context next turn
         history = get_session(phone).get("conversation_history", [])
@@ -83,7 +83,7 @@ async def web_chat(body: ChatRequest):
     history.append({"role": "user", "content": body.message})
     update_session(body.phone, conversation_history=history[-20:])
 
-    reply = await handle_message(body.phone, body.message)
+    reply = await handle_message(body.phone, body.message, channel="web")
 
     # Store assistant reply so LLM has full context next turn
     history = get_session(body.phone).get("conversation_history", [])
