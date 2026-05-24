@@ -1,6 +1,6 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useState } from "react";
-import { MessageCircle, ShieldCheck, Sparkles, Hospital, Check, Copy, Phone } from "lucide-react";
+import { MessageCircle, ShieldCheck, Sparkles, Check, Copy, Phone } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 const WA_NUMBER = "+1 415 523 8886";
