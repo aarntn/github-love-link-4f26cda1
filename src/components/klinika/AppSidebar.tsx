@@ -111,8 +111,8 @@ export function AppSidebar({ active, onChange }: Props) {
           </SheetContent>
         </Sheet>
         <div className="flex items-center gap-2">
-          <div className="h-6 w-6 rounded-md bg-primary flex items-center justify-center text-primary-foreground font-bold text-xs">
-            K
+          <div className="h-6 w-6 rounded-md bg-primary flex items-center justify-center text-primary-foreground">
+            <BrandIcon className="h-3 w-3" />
           </div>
           <span className="font-semibold text-sm">Klinika</span>
         </div>
