@@ -23,13 +23,6 @@ export type Database = {
           id: string
           is_dengue_hotspot: boolean | null
           language: string
-          location_label: string | null
-          location_lat: number | null
-          location_lng: number | null
-          clinic_distance_km: number | null
-          clinic_lat: number | null
-          clinic_lng: number | null
-          clinic_maps_url: string | null
           mode: string
           original_clinic: string | null
           postcode: string | null
@@ -49,13 +42,6 @@ export type Database = {
           id?: string
           is_dengue_hotspot?: boolean | null
           language: string
-          location_label?: string | null
-          location_lat?: number | null
-          location_lng?: number | null
-          clinic_distance_km?: number | null
-          clinic_lat?: number | null
-          clinic_lng?: number | null
-          clinic_maps_url?: string | null
           mode: string
           original_clinic?: string | null
           postcode?: string | null
@@ -75,13 +61,6 @@ export type Database = {
           id?: string
           is_dengue_hotspot?: boolean | null
           language?: string
-          location_label?: string | null
-          location_lat?: number | null
-          location_lng?: number | null
-          clinic_distance_km?: number | null
-          clinic_lat?: number | null
-          clinic_lng?: number | null
-          clinic_maps_url?: string | null
           mode?: string
           original_clinic?: string | null
           postcode?: string | null
