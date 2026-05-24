@@ -1,7 +1,7 @@
 import { MapPin, AlertTriangle } from "lucide-react";
 import type { TriageCase } from "@/lib/klinika";
 import { timeAgo } from "@/lib/klinika";
-import { UrgencyBadge, FlowBadge, LanguageBadge } from "./badges";
+import { StatusBadge, UrgencyDot, FlowBadge, LanguageBadge } from "./badges";
 import { cn } from "@/lib/utils";
 
 interface Props {
@@ -11,31 +11,34 @@ interface Props {
 }
 
 export function CaseCard({ case: c, onClick, actions }: Props) {
+  const isReviewed = c.status === "reviewed";
   return (
     <div
       onClick={onClick}
       className={cn(
         "bg-card border rounded-xl overflow-hidden transition-all hover:shadow-md hover:border-primary/30",
         onClick && "cursor-pointer",
-        c.red_flag && "border-destructive/40",
+        c.red_flag && !isReviewed && "border-destructive/40",
+        isReviewed && "opacity-60 bg-muted/30",
       )}
     >
-      {c.red_flag && (
+      {c.red_flag && !isReviewed && (
         <div className="bg-destructive/10 text-destructive px-4 py-1.5 text-xs font-semibold flex items-center gap-1.5">
           <AlertTriangle className="h-3.5 w-3.5" />
           Red flag — immediate attention
         </div>
       )}
       <div className="p-4 space-y-3">
-        <div className="flex items-center justify-between gap-2">
+        <div className="flex items-start justify-between gap-2">
           <LanguageBadge language={c.language} />
-          <UrgencyBadge urgency={c.urgency} />
+          <StatusBadge status={c.status} />
         </div>
 
-        <div>
+        <div className="space-y-1.5">
           <p className="font-medium text-foreground line-clamp-2 leading-snug">
             {c.chief_complaint}
           </p>
+          <UrgencyDot urgency={c.urgency} />
         </div>
 
         <div className="flex items-center gap-2 flex-wrap">

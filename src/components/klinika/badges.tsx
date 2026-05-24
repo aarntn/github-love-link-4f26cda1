@@ -35,21 +35,57 @@ export function FlowBadge({ flow }: { flow: string }) {
   );
 }
 
-export function StatusBadge({ status }: { status: string }) {
-  const styles =
-    status === "new"
-      ? "bg-primary/10 text-primary"
-      : status === "escalated"
-        ? "bg-destructive/10 text-destructive"
-        : "bg-muted text-muted-foreground";
+export const STATUS_META: Record<
+  string,
+  { label: string; bg: string; text: string }
+> = {
+  new: { label: "Belum Review", bg: "#BA7517", text: "#ffffff" },
+  reviewed: { label: "Reviewed", bg: "#0D9E75", text: "#ffffff" },
+  escalated: { label: "Direroute", bg: "#D85A30", text: "#ffffff" },
+};
+
+export function StatusBadge({
+  status,
+  size = "md",
+}: {
+  status: string;
+  size?: "sm" | "md";
+}) {
+  const meta = STATUS_META[status] ?? {
+    label: status,
+    bg: "#6b7280",
+    text: "#ffffff",
+  };
   return (
     <span
       className={cn(
-        "inline-flex items-center px-2 py-0.5 rounded-md text-xs font-medium capitalize",
-        styles,
+        "inline-flex items-center rounded-full font-semibold",
+        size === "sm" ? "px-2 py-0.5 text-[11px]" : "px-2.5 py-1 text-xs",
       )}
+      style={{ backgroundColor: meta.bg, color: meta.text }}
     >
-      {status}
+      {meta.label}
+    </span>
+  );
+}
+
+export function UrgencyDot({ urgency }: { urgency: string }) {
+  const dot =
+    urgency === "emergency"
+      ? "bg-destructive"
+      : urgency === "urgent"
+        ? "bg-warning"
+        : "bg-primary";
+  const text =
+    urgency === "emergency"
+      ? "text-destructive"
+      : urgency === "urgent"
+        ? "text-warning"
+        : "text-muted-foreground";
+  return (
+    <span className={cn("inline-flex items-center gap-1.5 text-xs capitalize", text)}>
+      <span className={cn("h-1.5 w-1.5 rounded-full", dot)} />
+      {urgency}
     </span>
   );
 }
