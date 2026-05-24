@@ -1,11 +1,11 @@
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, timezone
 
 SESSION_TIMEOUT_MINUTES = 30
 _sessions: dict[str, dict] = {}
 
 
 def _default_session(phone: str) -> dict:
-    now = datetime.utcnow().isoformat()
+    now = datetime.now(timezone.utc).isoformat()
     return {
         "phone": phone,
         "mode": None,
@@ -30,7 +30,7 @@ def _default_session(phone: str) -> dict:
 
 def _is_expired(session: dict) -> bool:
     last = datetime.fromisoformat(session["last_active"])
-    return datetime.utcnow() - last > timedelta(minutes=SESSION_TIMEOUT_MINUTES)
+    return datetime.now(timezone.utc).replace(tzinfo=None) - last.replace(tzinfo=None) > timedelta(minutes=SESSION_TIMEOUT_MINUTES)
 
 
 def _cleanup_expired() -> None:
@@ -43,14 +43,14 @@ def get_session(phone: str) -> dict:
     _cleanup_expired()
     if phone not in _sessions or _is_expired(_sessions[phone]):
         _sessions[phone] = _default_session(phone)
-    _sessions[phone]["last_active"] = datetime.utcnow().isoformat()
+    _sessions[phone]["last_active"] = datetime.now(timezone.utc).isoformat()
     return _sessions[phone]
 
 
 def update_session(phone: str, **kwargs) -> dict:
     session = get_session(phone)
     session.update(kwargs)
-    session["last_active"] = datetime.utcnow().isoformat()
+    session["last_active"] = datetime.now(timezone.utc).isoformat()
     return session
 
 

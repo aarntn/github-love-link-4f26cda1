@@ -72,11 +72,6 @@ export function ChatWidget({ phone, title = "JagaKL" }: ChatWidgetProps) {
     bottomRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages, loading]);
 
-  // Kick off onboarding on mount
-  useEffect(() => {
-    send("hello");
-  }, []); // eslint-disable-line react-hooks/exhaustive-deps
-
   const handleSend = () => {
     const text = input.trim();
     if (!text || loading) return;

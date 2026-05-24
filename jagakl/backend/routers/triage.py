@@ -853,8 +853,8 @@ async def _handle_ncd_log(phone: str, session: dict, text: str) -> str:
         return "Type your reading. Example: *glucose 7.2* or *BP 130/85*"
 
     # Log all entries from this message
-    from datetime import datetime as _dt
-    ts = _dt.utcnow().isoformat()
+    from datetime import datetime as _dt, timezone as _tz
+    ts = _dt.now(_tz.utc).isoformat()
     glucose_log: list = list(session.get("glucose_log", []))
     bp_log: list = list(session.get("bp_log", []))
 
