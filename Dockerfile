@@ -1,4 +1,5 @@
 FROM python:3.12-slim
+ARG CACHEBUST=20260524
 
 WORKDIR /app
 
