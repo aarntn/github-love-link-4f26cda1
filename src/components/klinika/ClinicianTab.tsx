@@ -20,16 +20,21 @@ import { cn } from "@/lib/utils";
 interface Props {
   cases: TriageCase[];
   updateStatus: (id: string, status: Status) => Promise<void>;
+  rerouteCase?: (
+    id: string,
+    payload: { clinic: string; reason: string; note?: string | null },
+  ) => Promise<void>;
 }
 
 interface RowProps {
   case: TriageCase;
   onOpen: () => void;
   onAction: (status: Status) => void;
+  onReroute?: () => void;
   pending: Status | null;
 }
 
-function CaseRow({ case: c, onOpen, onAction, pending }: RowProps) {
+function CaseRow({ case: c, onOpen, onAction, onReroute, pending }: RowProps) {
   const [expanded, setExpanded] = useState(false);
   const isLong = (c.triage_summary?.length ?? 0) > 220;
 
