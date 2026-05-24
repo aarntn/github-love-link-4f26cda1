@@ -2,8 +2,9 @@ import { useMemo, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { toast } from "sonner";
 import type { TriageCase, Status } from "@/lib/klinika";
-import { urgencyRank, timeAgo, flowLabel } from "@/lib/klinika";
+import { urgencyRank } from "@/lib/klinika";
 import { CaseDetailSheet } from "./CaseDetailSheet";
+import { RerouteModal } from "./RerouteModal";
 import { UrgencyBadge, FlowBadge, LanguageBadge } from "./badges";
 import { Button } from "@/components/ui/button";
 import {
