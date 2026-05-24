@@ -6,7 +6,9 @@ from twilio.twiml.messaging_response import MessagingResponse
 
 from session import get_session, update_session, delete_session, _sessions
 from routers.redflag import check_redflag
+from routers.referral import format_clinic_card, nearest_clinics
 from routers.triage import handle_message
+from services.location import is_plausible_kl_coordinate, parse_coordinate
 from services.stt import transcribe_voice_note
 
 router = APIRouter()
@@ -22,11 +24,28 @@ async def whatsapp_webhook(
     Body: str = Form(default=""),
     NumMedia: int = Form(default=0),
     MediaUrl0: str = Form(default=None),
+    Latitude: str = Form(default=None),
+    Longitude: str = Form(default=None),
+    Address: str = Form(default=None),
+    Label: str = Form(default=None),
 ):
     twiml = MessagingResponse()
     try:
         phone = From.replace("whatsapp:", "").strip()
         session = get_session(phone)
+        lat = parse_coordinate(Latitude)
+        lng = parse_coordinate(Longitude)
+        if is_plausible_kl_coordinate(lat, lng):
+            update_session(
+                phone,
+                location_lat=lat,
+                location_lng=lng,
+                location_label=Label,
+                location_address=Address,
+            )
+            if not Body:
+                Body = f"Shared location: {Label or Address or f'{lat},{lng}'}"
+            session = get_session(phone)
 
         if NumMedia > 0 and MediaUrl0:
             content_type = request.headers.get("MediaContentType0", "")
@@ -82,6 +101,18 @@ async def whatsapp_webhook(
 class ChatRequest(BaseModel):
     phone: str
     message: str
+    latitude: float | None = None
+    longitude: float | None = None
+    location_label: str | None = None
+    location_address: str | None = None
+
+
+class NearestClinicRequest(BaseModel):
+    latitude: float
+    longitude: float
+    condition: str = "general"
+    language: str = "en"
+    limit: int = 3
 
 
 @router.post("/chat")
@@ -91,6 +122,15 @@ async def web_chat(body: ChatRequest):
     Same triage logic — just returns JSON instead of TwiML.
     """
     session = get_session(body.phone)
+    if is_plausible_kl_coordinate(body.latitude, body.longitude):
+        update_session(
+            body.phone,
+            location_lat=body.latitude,
+            location_lng=body.longitude,
+            location_label=body.location_label,
+            location_address=body.location_address,
+        )
+        session = get_session(body.phone)
 
     flag = check_redflag(body.message, language=session.get("language", "en"))
     if flag and flag["triggered"]:
@@ -110,6 +150,28 @@ async def web_chat(body: ChatRequest):
     return JSONResponse(content={"reply": reply, "flag": None})
 
 
+@router.post("/clinics/nearest")
+async def nearest_clinics_endpoint(body: NearestClinicRequest):
+    if not is_plausible_kl_coordinate(body.latitude, body.longitude):
+        return JSONResponse(
+            status_code=400,
+            content={"detail": "Latitude/longitude must be within the KL service area."},
+        )
+
+    clinics = nearest_clinics(
+        lat=body.latitude,
+        lng=body.longitude,
+        condition=body.condition,
+        limit=max(1, min(body.limit, 10)),
+    )
+    return JSONResponse(
+        content={
+            "clinics": clinics,
+            "cards": [format_clinic_card(c, body.language) for c in clinics],
+        }
+    )
+
+
 # ── Dashboard endpoints ──────────────────────────────────────────────────────
 
 def _session_summary(session: dict) -> dict:
@@ -119,6 +181,10 @@ def _session_summary(session: dict) -> dict:
         "mode": session.get("mode"),
         "stage": session.get("stage"),
         "postcode": session.get("postcode"),
+        "location_lat": session.get("location_lat"),
+        "location_lng": session.get("location_lng"),
+        "location_label": session.get("location_label"),
+        "location_address": session.get("location_address"),
         "last_active": session.get("last_active"),
         "tb_answers": session.get("tb_answers", []),
         "phq_answers": session.get("phq_answers", []),

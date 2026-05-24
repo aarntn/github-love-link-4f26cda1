@@ -157,6 +157,27 @@ export const sendMessage = (body: ChatRequest): Promise<ChatResponse> =>
 
 export const resetMockSession = () => _mockFlow.reset();
 
+export interface NearestClinicRequest {
+  latitude: number;
+  longitude: number;
+  condition?: string;
+  language?: string;
+  limit?: number;
+}
+
+export interface NearestClinicResponse {
+  clinics: Array<Record<string, unknown>>;
+  cards: string[];
+}
+
+export const nearestClinics = (
+  body: NearestClinicRequest,
+): Promise<NearestClinicResponse> =>
+  request<NearestClinicResponse>("/clinics/nearest", {
+    method: "POST",
+    body: JSON.stringify(body),
+  });
+
 // ── Sessions ──────────────────────────────────────────────────────────────────
 
 export const listSessions = (): Promise<Session[]> =>

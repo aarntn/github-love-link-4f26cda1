@@ -5,7 +5,7 @@ from pathlib import Path
 
 from session import get_session, update_session, delete_session
 from services.idengue import fetch_hotspot_status, is_dengue_warning_signs
-from routers.referral import route_referral
+from routers.referral import clinic_location_summary, route_referral
 from routers.redflag import check_redflag
 from services.drug_lookup import lookup_drug
 from services.llm import chat
@@ -64,6 +64,26 @@ def _clinic_name(ref: dict) -> str:
         return "Klinik Kesihatan (MySejahtera)"
     clinics = ref.get("clinics", [])
     return clinics[0].get("name", "NGO Clinic") if clinics else "NGO Clinic"
+
+
+def _route_with_location(triage: dict, session: dict) -> dict:
+    triage = dict(triage)
+    triage["latitude"] = session.get("location_lat")
+    triage["longitude"] = session.get("location_lng")
+    return route_referral(triage)
+
+
+def _case_location_fields(session: dict, ref: dict) -> dict:
+    if session.get("location_lat") is None or session.get("location_lng") is None:
+        return {}
+    clinics = ref.get("clinics", [])
+    clinic_fields = clinic_location_summary(clinics[0]) if clinics else {}
+    return {
+        "location_lat": session.get("location_lat"),
+        "location_lng": session.get("location_lng"),
+        "location_label": session.get("location_label") or session.get("location_address"),
+        **clinic_fields,
+    }
 
 
 _LANG_MAP = {
@@ -399,7 +419,7 @@ async def _handle_dengue(phone: str, session: dict, text: str) -> str:
                 "language": lang,
                 "postcode": postcode,
             }
-            ref = route_referral(triage)
+            ref = _route_with_location(triage, session)
             cases = hotspot.get("active_cases")
             if lang == "ms":
                 msg = (
@@ -421,6 +441,7 @@ async def _handle_dengue(phone: str, session: dict, text: str) -> str:
                 mode=session.get("mode", "anonymous"),
                 postcode=postcode,
                 recommended_clinic=_clinic_name(ref),
+                **_case_location_fields(session, ref),
                 red_flag=True,
                 triage_summary=(
                     f"Dengue day-{day} fever in postcode {postcode}; "
@@ -487,7 +508,7 @@ async def _handle_tb(phone: str, session: dict, text: str) -> str:
                 "language": lang,
                 "postcode": session.get("postcode"),
             }
-            ref = route_referral(triage)
+            ref = _route_with_location(triage, session)
             if lang == "ms":
                 prefix = (
                     "⚠️ Berdasarkan jawapan anda, anda mungkin perlu ujian TB.\n"
@@ -506,6 +527,7 @@ async def _handle_tb(phone: str, session: dict, text: str) -> str:
                 mode=session.get("mode", "anonymous"),
                 postcode=session.get("postcode"),
                 recommended_clinic=_clinic_name(ref),
+                **_case_location_fields(session, ref),
                 red_flag=False,
                 triage_summary=f"TB screen score {score}/{threshold} — referred for testing",
                 urgency="urgent",
@@ -649,6 +671,7 @@ async def _handle_myminda(phone: str, session: dict, text: str) -> str:
                     mode=session.get("mode", "anonymous"),
                     postcode=session.get("postcode"),
                     recommended_clinic="Befrienders KL / Talian Kasih",
+                    **_case_location_fields(session, {}),
                     red_flag=True,
                     triage_summary=f"PHQ-9 Q9 crisis (suicidal ideation). PHQ-9 total={phq9_total}/27",
                     urgency="emergency",
@@ -686,7 +709,7 @@ async def _handle_myminda(phone: str, session: dict, text: str) -> str:
                     "language": lang,
                     "postcode": session.get("postcode"),
                 }
-                ref = route_referral(triage)
+                ref = _route_with_location(triage, session)
                 asyncio.create_task(write_triage_case(
                     channel=session.get("channel", "whatsapp"),
                     chief_complaint=session.get("chief_complaint", "mental health"),
@@ -695,6 +718,7 @@ async def _handle_myminda(phone: str, session: dict, text: str) -> str:
                     mode=session.get("mode", "anonymous"),
                     postcode=session.get("postcode"),
                     recommended_clinic=_clinic_name(ref),
+                    **_case_location_fields(session, ref),
                     red_flag=False,
                     triage_summary=f"PHQ-9 band={band_label}, total={phq9_total}/27",
                     urgency="urgent" if band_label in ("severe", "moderately_severe") else "routine",
@@ -859,7 +883,7 @@ async def _handle_pharmacy_refill(phone: str, session: dict, text: str) -> str:
         "language": lang,
         "postcode": session.get("postcode"),
     }
-    ref = route_referral(triage)
+    ref = _route_with_location(triage, session)
     asyncio.create_task(write_triage_case(
         channel=session.get("channel", "whatsapp"),
         chief_complaint=session.get("chief_complaint", f"medication refill: {text}"),
@@ -868,6 +892,7 @@ async def _handle_pharmacy_refill(phone: str, session: dict, text: str) -> str:
         mode=session.get("mode", "anonymous"),
         postcode=session.get("postcode"),
         recommended_clinic=_clinic_name(ref),
+        **_case_location_fields(session, ref),
         red_flag=False,
         triage_summary=f"Pharmacy refill request: {text[:200]}",
         urgency="routine",

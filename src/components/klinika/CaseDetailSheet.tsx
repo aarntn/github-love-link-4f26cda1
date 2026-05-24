@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button";
 import type { TriageCase, Status } from "@/lib/klinika";
 import { timeAgo, rerouteReasonLabel } from "@/lib/klinika";
 import { UrgencyBadge, FlowBadge, LanguageBadge } from "./badges";
-import { AlertTriangle, Shield, Copy, Check, ArrowUpRight, Loader2, Sparkles } from "lucide-react";
+import { AlertTriangle, Shield, Copy, Check, ArrowUpRight, Loader2, Sparkles, MapPin } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { format } from "date-fns";
 import { RerouteModal } from "./RerouteModal";
@@ -178,6 +178,22 @@ export function CaseDetailSheet({ case: c, open, onOpenChange, updateStatus, rer
               value={
                 <div className="space-y-1">
                   <div className="font-medium">{c.recommended_clinic}</div>
+                  {c.clinic_distance_km != null && (
+                    <div className="text-xs text-muted-foreground">
+                      Approx. {c.clinic_distance_km.toFixed(1)} km from shared location
+                    </div>
+                  )}
+                  {c.clinic_maps_url && (
+                    <a
+                      href={c.clinic_maps_url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center gap-1 text-xs font-medium text-primary hover:underline"
+                    >
+                      <MapPin className="h-3 w-3" />
+                      Open map
+                    </a>
+                  )}
                   <div className="inline-flex items-center gap-1 text-[11px] text-muted-foreground">
                     <Sparkles className="h-3 w-3" />
                     AI Recommended
@@ -198,6 +214,18 @@ export function CaseDetailSheet({ case: c, open, onOpenChange, updateStatus, rer
               }
             />
             <Field label="Postcode" value={c.postcode ?? "—"} />
+            <Field
+              label="Shared location"
+              value={
+                c.location_lat != null && c.location_lng != null ? (
+                  <span className="text-xs">
+                    {c.location_label ?? "Location pin"} · {c.location_lat.toFixed(4)}, {c.location_lng.toFixed(4)}
+                  </span>
+                ) : (
+                  <span className="text-muted-foreground/70 text-sm">Not shared</span>
+                )
+              }
+            />
             <Field
               label="Dengue hotspot"
               value={

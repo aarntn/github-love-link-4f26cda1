@@ -17,8 +17,15 @@ export interface TriageCase {
   urgency: Urgency | string;
   red_flag: boolean;
   postcode: string | null;
+  location_lat?: number | null;
+  location_lng?: number | null;
+  location_label?: string | null;
   is_dengue_hotspot: boolean | null;
   recommended_clinic: string;
+  clinic_distance_km?: number | null;
+  clinic_lat?: number | null;
+  clinic_lng?: number | null;
+  clinic_maps_url?: string | null;
   triage_summary: string;
   status: Status | string;
   original_clinic?: string | null;

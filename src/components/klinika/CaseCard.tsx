@@ -52,7 +52,10 @@ export function CaseCard({ case: c, onClick, actions }: Props) {
 
         <div className="flex items-start gap-1.5 text-xs text-muted-foreground">
           <MapPin className="h-3.5 w-3.5 mt-0.5 shrink-0" />
-          <span className="line-clamp-1">{c.recommended_clinic}</span>
+          <span className="line-clamp-1">
+            {c.recommended_clinic}
+            {c.clinic_distance_km != null && ` · ${c.clinic_distance_km.toFixed(1)} km`}
+          </span>
         </div>
 
         <div className="flex items-center justify-between pt-2 border-t">

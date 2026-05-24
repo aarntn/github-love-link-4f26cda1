@@ -21,9 +21,16 @@ async def write_triage_case(
     mode: str,
     postcode: str | None,
     recommended_clinic: str,
-    red_flag: bool = False,
     triage_summary: str,
     urgency: str,
+    location_lat: float | None = None,
+    location_lng: float | None = None,
+    location_label: str | None = None,
+    clinic_distance_km: float | None = None,
+    clinic_lat: float | None = None,
+    clinic_lng: float | None = None,
+    clinic_maps_url: str | None = None,
+    red_flag: bool = False,
     is_dengue_hotspot: bool | None = None,
 ) -> None:
     """
@@ -50,6 +57,16 @@ async def write_triage_case(
         "urgency": urgency,
         "status": "new",
     }
+    optional_fields = {
+        "location_lat": location_lat,
+        "location_lng": location_lng,
+        "location_label": location_label,
+        "clinic_distance_km": clinic_distance_km,
+        "clinic_lat": clinic_lat,
+        "clinic_lng": clinic_lng,
+        "clinic_maps_url": clinic_maps_url,
+    }
+    row.update({k: v for k, v in optional_fields.items() if v is not None})
     if is_dengue_hotspot is not None:
         row["is_dengue_hotspot"] = is_dengue_hotspot
 
