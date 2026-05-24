@@ -1,4 +1,4 @@
-import { MessageCircle, Globe, MapPin, AlertTriangle } from "lucide-react";
+import { MapPin, AlertTriangle } from "lucide-react";
 import type { TriageCase } from "@/lib/klinika";
 import { timeAgo } from "@/lib/klinika";
 import { UrgencyBadge, FlowBadge, LanguageBadge } from "./badges";
@@ -11,7 +11,6 @@ interface Props {
 }
 
 export function CaseCard({ case: c, onClick, actions }: Props) {
-  const ChannelIcon = c.channel === "whatsapp" ? MessageCircle : Globe;
   return (
     <div
       onClick={onClick}
@@ -29,10 +28,7 @@ export function CaseCard({ case: c, onClick, actions }: Props) {
       )}
       <div className="p-4 space-y-3">
         <div className="flex items-center justify-between gap-2">
-          <div className="flex items-center gap-2 text-muted-foreground">
-            <ChannelIcon className="h-4 w-4" />
-            <LanguageBadge language={c.language} />
-          </div>
+          <LanguageBadge language={c.language} />
           <UrgencyBadge urgency={c.urgency} />
         </div>
 
