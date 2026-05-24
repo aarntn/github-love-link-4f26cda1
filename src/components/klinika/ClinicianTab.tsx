@@ -9,7 +9,7 @@ import {
 } from "@/lib/klinika";
 import { FlowTag, UrgencyBadge } from "./badges";
 import { Button } from "@/components/ui/button";
-import { toast } from "@/components/ui/sonner";
+import { toast } from "sonner";
 
 export function ClinicianTab() {
   const { cases, loading, error, setCases } = useTriageCases();
