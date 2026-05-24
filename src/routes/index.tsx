@@ -124,13 +124,11 @@ function WhyKlinika() {
   return (
     <section className="px-5 md:px-8 pt-20 md:pt-[80px] pb-10 md:pb-16">
       <div className="max-w-5xl mx-auto">
-        <div className="text-center mb-8 md:mb-10">
-          <span
-            className="text-[11px] font-semibold uppercase tracking-widest"
-            style={{ color: TEAL }}
-          >
-            KENAPA KLINIKA?
-          </span>
+        <div className="text-center mb-10 md:mb-14">
+          <h2 className="text-2xl md:text-3xl font-semibold tracking-tight">
+            Kenapa Klinika?
+          </h2>
+          <p className="mt-2 text-muted-foreground">Jagaan untuk semua, tanpa soal siasat.</p>
         </div>
 
         <div className="grid gap-5 md:grid-cols-3 md:gap-6">
